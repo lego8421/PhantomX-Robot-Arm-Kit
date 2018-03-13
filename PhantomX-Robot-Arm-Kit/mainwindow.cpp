@@ -28,7 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         _lineEdit[i]->setValidator( new QIntValidator(-150, 150, this) );
 
         // set text signal
-        connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) { bool ok; _slider[i]->setValue(text.toInt(&ok));});
+        connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) {
+            bool ok = false;
+            _slider[i]->setValue(text.toInt(&ok));
+        });
 
         // set slider signal
         connect(_slider[i], &QSlider::valueChanged, [=](int value) { valueChanged(i,value); });
@@ -63,9 +66,15 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _messageQueue = new QQueue<QByteArray>();
 
     // set serial signal connect
-    connect(_serialPort, &Serialport::connected, [=](QString portName) { qDebug() << "connected" << portName;});
-    connect(_serialPort, &Serialport::disconnected, [=](QString portName) { qDebug() << "disconnected" << portName;});
-    connect(_serialPort, &Serialport::readyRead, [=]() { _messageQueue->enqueue(_serialPort->readAll());});
+    connect(_serialPort, &Serialport::connected, [=](QString portName) {
+        statusBar()->showMessage("connected: " + portName,1000);
+    });
+    connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
+        statusBar()->showMessage("disconnected: " + portName,1000);
+    });
+    connect(_serialPort, &Serialport::readyRead, [=]() {
+        _messageQueue->enqueue(_serialPort->readAll());
+    });
 
     // set user task timer
     _taskTimer = new QTimer(this);
