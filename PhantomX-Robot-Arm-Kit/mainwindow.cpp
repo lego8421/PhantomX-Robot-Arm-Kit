@@ -55,6 +55,13 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _q = _qDefault * _DEG2RAD;
 
     ui->widget->setJointAngle(_q);
+
+    _serialPort = new Serialport(this);
+    _serialPort->startSerialPortScan();
+
+    connect(_serialPort, &Serialport::connected, [=](QString portName) { qDebug() << "connected" << portName;});
+    connect(_serialPort, &Serialport::disconnected, [=](QString portName) { qDebug() << "disconnected" << portName;});
+
 }
 
 MainWindow::~MainWindow() {

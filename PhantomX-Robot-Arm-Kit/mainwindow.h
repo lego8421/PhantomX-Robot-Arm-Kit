@@ -5,6 +5,7 @@
 #include <QSlider>
 #include <QLineEdit>
 
+#include "serialport/serialport.h"
 #include "kinematics/kinematics.h"
 
 namespace Ui {
@@ -23,6 +24,8 @@ private:
     Ui::MainWindow *ui;
     QSlider **_slider;
     QLineEdit **_lineEdit;
+
+    Serialport *_serialPort;
 
     CKinematics *_kinematics;
     dVector _qDefault;
