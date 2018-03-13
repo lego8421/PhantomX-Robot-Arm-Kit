@@ -9,9 +9,6 @@ Serialport::Serialport(QWidget *parent) :
 
     _serialPortDisconnectedTimer = new QTimer(parent);
     connect(_serialPortDisconnectedTimer,SIGNAL(timeout()),this,SLOT(serialPortDisconnectedTimer()));
-
-    _messageQueue = new QQueue<QByteArray>();
-    connect(this,SIGNAL(readyRead()),this,SLOT(serialPortRead()));
 }
 
 void Serialport::startSerialPortScan() {
@@ -22,21 +19,12 @@ void Serialport::stopSerialPortScan() {
     _serialPortScanTimer->stop();
 }
 
-QByteArray Serialport::read() {
-    if(!_messageQueue->isEmpty()) {
-        return _messageQueue->dequeue();
-    } else {
-        return NULL;
-    }
-}
-
 void Serialport::serialPortScanTimer() {
 
     QList<QSerialPortInfo> serialProtInfoList = QSerialPortInfo::availablePorts();
 
     for(int i=0;i<serialProtInfoList.size();i++) {
-//        if(serialProtInfoList.at(i).vendorIdentifier() == 1027 && serialProtInfoList.at(i).productIdentifier() == 24596) {
-        if(serialProtInfoList.at(i).vendorIdentifier() == 12254 && serialProtInfoList.at(i).productIdentifier() == 2) {
+        if(serialProtInfoList.at(i).vendorIdentifier() == 1027 && serialProtInfoList.at(i).productIdentifier() == 24596) {
             if(!serialProtInfoList.at(i).isBusy()) {
                 setPortName(serialProtInfoList.at(i).portName());
                 setBaudRate(57600);
@@ -61,8 +49,4 @@ void Serialport::serialPortDisconnectedTimer() {
         _serialPortDisconnectedTimer->stop();
         emit disconnected(portName());
     }
-}
-
-void Serialport::serialPortRead() {
-    _messageQueue->enqueue(readAll());
 }
