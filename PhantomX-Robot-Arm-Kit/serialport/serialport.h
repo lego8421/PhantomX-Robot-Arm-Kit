@@ -5,6 +5,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
+#include <QQueue>
 #include <QDebug>
 
 class Serialport : public QSerialPort
@@ -16,10 +17,14 @@ public:
     void startSerialPortScan();
     void stopSerialPortScan();
 
+    QByteArray read();
+
 private:
     const int TIMER_INTERVAL = 100;
     QTimer *_serialPortScanTimer;
     QTimer *_serialPortDisconnectedTimer;
+
+    QQueue<QByteArray> *_messageQueue;
 
 signals:
     void connected(QString portName);
@@ -28,6 +33,7 @@ signals:
 public slots:
     void serialPortScanTimer();
     void serialPortDisconnectedTimer();
+    void serialPortRead();
 };
 
 #endif // SERIALPORT_H
