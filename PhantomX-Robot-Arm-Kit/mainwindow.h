@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStatusBar>
 #include <QSlider>
 #include <QLineEdit>
 #include <QQueue>

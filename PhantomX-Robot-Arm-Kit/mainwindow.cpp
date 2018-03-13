@@ -67,10 +67,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     // set serial signal connect
     connect(_serialPort, &Serialport::connected, [=](QString portName) {
-        statusBar()->showMessage("connected: " + portName,1000);
+        ui->statusBar->showMessage("connected: " + portName,1000);
     });
     connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
-        statusBar()->showMessage("disconnected: " + portName,1000);
+        ui->statusBar->showMessage("disconnected: " + portName,1000);
     });
     connect(_serialPort, &Serialport::readyRead, [=]() {
         _messageQueue->enqueue(_serialPort->readAll());
