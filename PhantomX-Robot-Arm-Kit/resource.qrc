@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>image/phantomX-robot-arm-kit.png</file>
+    </qresource>
+</RCC>
