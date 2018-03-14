@@ -27,7 +27,7 @@ void Serialport::serialPortScanTimer() {
         if(serialProtInfoList.at(i).vendorIdentifier() == 1027 && serialProtInfoList.at(i).productIdentifier() == 24596) {
             if(!serialProtInfoList.at(i).isBusy()) {
                 setPortName(serialProtInfoList.at(i).portName());
-                setBaudRate(57600);
+                setBaudRate(1000000);
                 setDataBits(QSerialPort::Data8);
                 setParity(QSerialPort::NoParity);
                 setFlowControl(QSerialPort::NoFlowControl);
