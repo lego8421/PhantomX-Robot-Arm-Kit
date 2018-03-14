@@ -32,7 +32,8 @@ SOURCES += \
     kinematics/quaternion.cpp \
     matrix/transformation.cpp \
     opengl/oglObjects.cpp \
-    serialport/serialport.cpp
+    serialport/serialport.cpp \
+    dynamixel/dynamixel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS += \
     matrix/transformation.h \
     opengl/oglDef.h \
     opengl/oglObjects.h \
-    serialport/serialport.h
+    serialport/serialport.h \
+    dynamixel/dynamixel.h
 
 FORMS += \
         mainwindow.ui
