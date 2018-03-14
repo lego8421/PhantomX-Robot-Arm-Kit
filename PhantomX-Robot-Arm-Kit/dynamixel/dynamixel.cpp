@@ -1,5 +1,7 @@
 #include "dynamixel.h"
 
+#include <QDebug>
+
 Dynamixel::Dynamixel(Dynamixel::type type)
 {
 
@@ -16,6 +18,50 @@ Dynamixel::Dynamixel(Dynamixel::type type)
 
 QByteArray Dynamixel::generateJointAnglePacket(dVector &q) {
 
+    QByteArray buffer;
+    uint16_t parameter[5] = {0,};
+    int parameterLength = 15;
+
+    buffer[0] = 0xFF;
+    buffer[1] = 0xFF;
+
+    buffer[2] = 0xFE;
+    buffer[3] = parameterLength + 2;
+    buffer[4] = 0x83;
+
+    for(int i=0;i<5;i++) {
+        parameter[i] = convertAngleToDynamixel(q[i] * _RAD2DEG);
+    }
+
+    // yaw
+    buffer[5] = 1;
+    buffer[6] = parameter[0] & 0x00FF;
+    buffer[7] = parameter[0] >> 8;
+
+    // pitch 1
+    buffer[8] = 2;
+    buffer[9] = parameter[1] & 0x00FF;
+    buffer[10] = parameter[1] >> 8;
+
+    buffer[11] = 3;
+    buffer[12] = (_info.valueMax - parameter[1]) & 0x00FF;
+    buffer[13] = (_info.valueMax - parameter[1]) >> 8;
+
+
+    qDebug() << buffer;
+
+    return buffer;
+
+
+//    unsigned char CheckSum = 0;
+//    unsigned char PacketLength = ParameterLength + 6;
+
+//    for (Count = 2; Count < PacketLength - 1; Count++)  // Except 0xFF, Checksum
+//    {
+//        CheckSum += TxBuffer[Count];
+//    }
+
+//    TxBuffer[Count] = ~CheckSum;
 }
 
 double Dynamixel::convertDynamixelToAngle(uint16_t value) {

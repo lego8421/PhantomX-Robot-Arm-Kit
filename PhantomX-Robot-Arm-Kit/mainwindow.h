@@ -8,6 +8,7 @@
 
 #include "serialport/serialport.h"
 #include "kinematics/kinematics.h"
+#include "dynamixel/dynamixel.h"
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,8 @@ private:
     CKinematics *_kinematics;
     dVector _qDefault;
     dVector _q;
+
+    Dynamixel *_dynamixel;
 
 public slots:
     void valueChanged(int index, int val);

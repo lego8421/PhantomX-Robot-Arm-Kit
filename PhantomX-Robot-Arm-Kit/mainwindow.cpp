@@ -60,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     ui->widget->setJointAngle(_q);
 
+    _dynamixel = new Dynamixel(Dynamixel::type::AX);
+
     // set serial port
     _serialPort = new Serialport(this);
     _serialPort->startSerialPortScan();
@@ -93,6 +95,8 @@ void MainWindow::valueChanged(int index, int val) {
     ui->widget->updateGL();
 
     _lineEdit[index]->setText(QString::number(val));
+
+    _dynamixel->generateJointAnglePacket(_q);
 }
 
 void MainWindow::on_buttonReset_clicked() {
