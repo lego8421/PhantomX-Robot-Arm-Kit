@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     ui->setupUi(this);
 
+    // set ui object
     _slider = new QSlider*[6];
     _slider[0] = ui->horizontalSlider0;
     _slider[1] = ui->horizontalSlider1;
@@ -27,7 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         _lineEdit[i]->setValidator( new QIntValidator(-150, 150, this) );
 
         // set text signal
-        connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) { bool ok; _slider[i]->setValue(text.toInt(&ok));});
+        connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) {
+            bool ok = false;
+            _slider[i]->setValue(text.toInt(&ok));
+        });
 
         // set slider signal
         connect(_slider[i], &QSlider::valueChanged, [=](int value) { valueChanged(i,value); });
@@ -55,6 +59,27 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _q = _qDefault * _DEG2RAD;
 
     ui->widget->setJointAngle(_q);
+
+    // set serial port
+    _serialPort = new Serialport(this);
+    _serialPort->startSerialPortScan();
+    _messageQueue = new QQueue<QByteArray>();
+
+    // set serial signal connect
+    connect(_serialPort, &Serialport::connected, [=](QString portName) {
+        ui->statusBar->showMessage("connected: " + portName,1000);
+    });
+    connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
+        ui->statusBar->showMessage("disconnected: " + portName,1000);
+    });
+    connect(_serialPort, &Serialport::readyRead, [=]() {
+        _messageQueue->enqueue(_serialPort->readAll());
+    });
+
+    // set user task timer
+    _taskTimer = new QTimer(this);
+    _taskTimer->start(1);
+    connect(_taskTimer,SIGNAL(timeout()),this,SLOT(doUserTask()));
 }
 
 MainWindow::~MainWindow() {
@@ -80,5 +105,13 @@ void MainWindow::on_buttonReset_clicked() {
     for(int i=0; i<6; i++) {
         _lineEdit[i]->setText(QString::number(_qDefault[i]));
         _slider[i]->setValue(_qDefault[i]);
+    }
+}
+
+void MainWindow::doUserTask() {
+
+    if(!_messageQueue->isEmpty()) {
+        QByteArray buffer = _messageQueue->dequeue();
+        qDebug() << buffer;
     }
 }
