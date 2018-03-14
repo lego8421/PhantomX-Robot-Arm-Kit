@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     // set user task timer
     _taskTimer = new QTimer(this);
-    _taskTimer->start(1);
+    _taskTimer->start(20);
     connect(_taskTimer,SIGNAL(timeout()),this,SLOT(doUserTask()));
 }
 
@@ -95,8 +95,6 @@ void MainWindow::valueChanged(int index, int val) {
     ui->widget->updateGL();
 
     _lineEdit[index]->setText(QString::number(val));
-
-    _dynamixel->generateJointAnglePacket(_q);
 }
 
 void MainWindow::on_buttonReset_clicked() {
@@ -117,5 +115,9 @@ void MainWindow::doUserTask() {
     if(!_messageQueue->isEmpty()) {
         QByteArray buffer = _messageQueue->dequeue();
         qDebug() << buffer;
+    }
+
+    if(_serialPort->isOpen()) {
+        _serialPort->write(_dynamixel->generateJointAnglePacket(_q));
     }
 }
