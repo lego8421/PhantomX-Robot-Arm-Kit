@@ -18,7 +18,7 @@ public:
     };
 
     typedef struct {
-        double valueMax;
+        uint16_t valueMax;
         double angleMax;
         Dynamixel::type type;
     }Info;
@@ -28,8 +28,8 @@ public:
     QByteArray generateJointAnglePacket(dVector &q);
 
 
-    double convertDynamixelToAngle(double value);
-    double convertAngleToDynamixel(double angle);
+    double convertDynamixelToAngle(uint16_t value);
+    uint16_t convertAngleToDynamixel(double angle);
 
 private:
     Info _info;

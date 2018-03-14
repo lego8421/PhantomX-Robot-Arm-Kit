@@ -18,24 +18,31 @@ QByteArray Dynamixel::generateJointAnglePacket(dVector &q) {
 
 }
 
-double Dynamixel::convertDynamixelToAngle(double value) {
+double Dynamixel::convertDynamixelToAngle(uint16_t value) {
 
-    if(value > (_info.valueMax - 1.0)) {
-        value = _info.valueMax - 1.0;
-    } else if(value < 0.0) {
-        value = 0.0;
+    if(value >= _info.valueMax - 1) {
+        value = _info.valueMax;
     }
 
-    return (value / _info.valueMax) * _info.angleMax;
+    return (((double)value / _info.valueMax) * _info.angleMax) - (_info.angleMax/2.0);
 }
 
-double Dynamixel::convertAngleToDynamixel(double angle) {
+uint16_t Dynamixel::convertAngleToDynamixel(double angle) {
 
-    if(angle > _info.valueMax/2.0) {
-        angle = _info.valueMax/2.0;
-    } else if(angle < -_info.valueMax/2.0) {
-        angle = -_info.valueMax/2.0;
+    uint16_t ret = 0;
+
+    if(angle > _info.angleMax/2.0) {
+        angle = _info.angleMax/2.0;
+    } else if(angle < -_info.angleMax/2.0) {
+        angle = -_info.angleMax/2.0;
     }
 
-    return ((angle / _info.angleMax) * _info.valueMax) + (_info.valueMax/2.0);
+    angle += (_info.angleMax/2.0);
+    ret = (angle / _info.angleMax) * _info.valueMax;
+
+    if(ret == _info.valueMax) {
+        ret = _info.valueMax - 1;
+    }
+
+    return ret;
 }
