@@ -26,6 +26,7 @@ public:
     Dynamixel(Dynamixel::type type);
 
     QByteArray generateJointAnglePacket(dVector q);
+    QByteArray generateGetJointAngleByIdPacket(uint8_t id);
 
 
     double convertDynamixelToAngle(uint16_t value);

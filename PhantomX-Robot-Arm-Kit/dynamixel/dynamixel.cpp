@@ -96,6 +96,33 @@ QByteArray Dynamixel::generateJointAnglePacket(dVector q) {
     return buffer;
 }
 
+QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id)
+{
+    QByteArray buffer;
+    uint8_t checkSum = 0;
+
+    // header
+    buffer[0] = 0xFF;
+    buffer[1] = 0xFF;
+
+    // id
+    buffer[2] = id;
+
+    // instruction
+    buffer[3] = 0x04;
+    buffer[4] = 0x02;
+
+    buffer[5] = 0x24;
+    buffer[6] = 0x02;
+
+    for(int i = 2; i < 7; i++) {
+        checkSum += buffer[i];
+    }
+    buffer[7] = ~checkSum;
+
+    return buffer;
+}
+
 double Dynamixel::convertDynamixelToAngle(uint16_t value) {
 
     if(value >= _info.valueMax - 1) {
