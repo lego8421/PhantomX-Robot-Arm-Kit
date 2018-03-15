@@ -95,11 +95,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::valueChanged(int index, int val) {
 
-    _q[index] = val * _DEG2RAD;
-    ui->widget->setJointAngle(_q);
-    ui->widget->updateGL();
+//    _q[index] = val * _DEG2RAD;
+//    ui->widget->setJointAngle(_q);
+//    ui->widget->updateGL();
 
-    _lineEdit[index]->setText(QString::number(val));
+//    _lineEdit[index]->setText(QString::number(val));
 }
 
 void MainWindow::on_buttonReset_clicked() {
@@ -121,13 +121,42 @@ void MainWindow::doUserTask() {
     if(!_messageQueue->isEmpty()) {
         QByteArray buffer = _messageQueue->dequeue();
         int16_t id = buffer[2];
-        uint16_t pos = (((uint16_t)buffer[6] << 8) & 0xFF00);
-        pos += buffer[5];
+        uint16_t pos = (((uint16_t)buffer[6] << 8) & 0xFF00) | (buffer[5] & 0xFF);
 
-//        qDebug() << buffer;
+        switch(id) {
+        case 1:
+            _q[0] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _lineEdit[0]->setText(QString::number((int16_t)_dynamixel->convertDynamixelToAngle(pos)));
+            _slider[0]->setValue(_dynamixel->convertDynamixelToAngle(pos));
+            break;
 
-        qDebug() << "id" << id;
-        qDebug() << "pos" << pos;
+        case 3:
+            _q[1] = (_dynamixel->convertDynamixelToAngle(pos) - Dynamixel::offset::LINK + Dynamixel::offset::ANGLE) * _DEG2RAD;
+            _lineEdit[1]->setText(QString::number((int16_t)_dynamixel->convertDynamixelToAngle(pos)));
+            _slider[1]->setValue(_dynamixel->convertDynamixelToAngle(pos));
+            break;
+
+        case 4:
+            _q[2] = (_dynamixel->convertDynamixelToAngle(pos) + Dynamixel::offset::LINK - Dynamixel::offset::ANGLE) * _DEG2RAD;
+            _lineEdit[2]->setText(QString::number((int16_t)_dynamixel->convertDynamixelToAngle(pos)));
+            _slider[2]->setValue(_dynamixel->convertDynamixelToAngle(pos));
+            break;
+
+        case 6:
+            _q[3] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _lineEdit[3]->setText(QString::number((int16_t)_dynamixel->convertDynamixelToAngle(pos)));
+            _slider[3]->setValue(_dynamixel->convertDynamixelToAngle(pos));
+            break;
+
+        case 7:
+            _q[4] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _lineEdit[4]->setText(QString::number((int16_t)_dynamixel->convertDynamixelToAngle(pos)));
+            _slider[4]->setValue(_dynamixel->convertDynamixelToAngle(pos));
+            break;
+        }
+
+        ui->widget->setJointAngle(_q);
+        ui->widget->updateGL();
     }
 
     if(_serialPort->isOpen()) {

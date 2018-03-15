@@ -22,8 +22,8 @@ QByteArray Dynamixel::generateJointAnglePacket(dVector q) {
     uint8_t parameterLength = 5 * (5+2) + 4;
     uint8_t checkSum = 0;
 
-    q[1] -= ((ANGLE_OFFSET - LINK_OFFSET) * _DEG2RAD);
-    q[2] += ((ANGLE_OFFSET - LINK_OFFSET) * _DEG2RAD);
+    q[1] -= ((Dynamixel::offset::ANGLE - Dynamixel::offset::LINK) * _DEG2RAD);
+    q[2] += ((Dynamixel::offset::ANGLE - Dynamixel::offset::LINK) * _DEG2RAD);
 
     for(int i=0;i<5;i++) {
         parameter[i] = convertAngleToDynamixel(q[i] * _RAD2DEG);

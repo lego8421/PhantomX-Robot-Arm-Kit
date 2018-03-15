@@ -18,6 +18,11 @@ public:
         MX = 4
     };
 
+    enum offset {
+        ANGLE = 90,
+        LINK = 17
+    };
+
     typedef struct {
         uint16_t valueMax;
         double angleMax;
@@ -39,9 +44,6 @@ public:
     uint16_t convertDualDynamixel(uint16_t value);
 
 private:
-    const double LINK_OFFSET = 17.0;
-    const double ANGLE_OFFSET = 90.0;
-
     Info _info;
     std::string _messageBuffer;
 
