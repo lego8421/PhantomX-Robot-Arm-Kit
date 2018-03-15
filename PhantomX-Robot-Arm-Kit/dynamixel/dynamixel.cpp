@@ -123,6 +123,56 @@ QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id)
     return buffer;
 }
 
+void Dynamixel::addMessageBuffer(QByteArray buffer) {
+    _messageBuffer += buffer.toStdString();
+}
+
+bool Dynamixel::getReceivedPacket(QByteArray *received) {
+
+    std::size_t index = _messageBuffer.find(0xFF,0);
+    uint8_t paramLength = 0;
+    uint8_t packetLength = 0;
+    uint8_t checksum = 0;
+
+    // find header
+    if(index == std::string::npos) {
+        _messageBuffer = "";
+        return false;
+    }
+
+    // slice data
+    _messageBuffer = _messageBuffer.substr(index);
+
+    if(_messageBuffer[1] != (int8_t)0xFF) {
+        _messageBuffer = "";
+        return false;
+    }
+
+    paramLength = _messageBuffer[3];
+    packetLength = paramLength+4;
+
+    // copy data
+    received->clear();
+    for(int i=0; i<packetLength; i++) {
+        received->push_back(_messageBuffer[i]);
+    }
+
+    // slice data
+    _messageBuffer = _messageBuffer.substr(packetLength-1);
+
+    // checksum
+    for(int i=2; i<packetLength-1; i++) {
+        checksum += received->at(i);
+    }
+    checksum = ~checksum;
+
+    if(checksum != received->at(packetLength-1)) {
+        return false;
+    }
+
+    return true;
+}
+
 double Dynamixel::convertDynamixelToAngle(uint16_t value) {
 
     if(value >= _info.valueMax - 1) {

@@ -2,6 +2,7 @@
 #define DYNAMIXEL_H
 
 #include <QMainWindow>
+#include <iostream>
 
 #include "kinematics/kinematics.h"
 
@@ -28,6 +29,9 @@ public:
     QByteArray generateJointAnglePacket(dVector q);
     QByteArray generateGetJointAngleByIdPacket(uint8_t id);
 
+    void addMessageBuffer(QByteArray buffer);
+    bool getReceivedPacket(QByteArray* received);
+
 
     double convertDynamixelToAngle(uint16_t value);
     uint16_t convertAngleToDynamixel(double angle);
@@ -38,6 +42,8 @@ private:
     const double ANGLE_OFFSET = 90.0;
 
     Info _info;
+    std::string _messageBuffer;
+
 };
 
 #endif // DYNAMIXEL_H
