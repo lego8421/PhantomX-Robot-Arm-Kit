@@ -75,7 +75,11 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         ui->statusBar->showMessage("disconnected: " + portName,1000);
     });
     connect(_serialPort, &Serialport::readyRead, [=]() {
-        _messageQueue->enqueue(_serialPort->readAll());
+        QByteArray packet;
+        _dynamixel->addMessageBuffer(_serialPort->readAll());
+        while(_dynamixel->getReceivedPacket(&packet)) {
+            _messageQueue->enqueue(packet);
+        }
     });
 
     // set user task timer
