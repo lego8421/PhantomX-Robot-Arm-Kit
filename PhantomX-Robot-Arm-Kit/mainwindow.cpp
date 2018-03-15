@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     // set serial signal connect
     connect(_serialPort, &Serialport::connected, [=](QString portName) {
         ui->statusBar->showMessage("connected: " + portName,1000);
+        _serialPort->write(_dynamixel->generateTorqueOffPacket());
     });
     connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
         ui->statusBar->showMessage("disconnected: " + portName,1000);
@@ -114,14 +115,27 @@ void MainWindow::on_buttonReset_clicked() {
     }
 }
 
+uint8_t num = 1;
 void MainWindow::doUserTask() {
 
     if(!_messageQueue->isEmpty()) {
         QByteArray buffer = _messageQueue->dequeue();
-        qDebug() << buffer;
+        int16_t id = buffer[2];
+        uint16_t pos = (((uint16_t)buffer[6] << 8) & 0xFF00);
+        pos += buffer[5];
+
+//        qDebug() << buffer;
+
+        qDebug() << "id" << id;
+        qDebug() << "pos" << pos;
     }
 
     if(_serialPort->isOpen()) {
-        _serialPort->write(_dynamixel->generateJointAnglePacket(_q));
+//        _serialPort->write(_dynamixel->generateJointAnglePacket(_q));
+        _serialPort->write(_dynamixel->generateGetJointAngleByIdPacket(num));
+        num++;
+        if(num==8) {
+            num = 1;
+        }
     }
 }

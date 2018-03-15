@@ -28,6 +28,7 @@ public:
 
     QByteArray generateJointAnglePacket(dVector q);
     QByteArray generateGetJointAngleByIdPacket(uint8_t id);
+    QByteArray generateTorqueOffPacket();
 
     void addMessageBuffer(QByteArray buffer);
     bool getReceivedPacket(QByteArray* received);

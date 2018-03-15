@@ -123,6 +123,38 @@ QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id)
     return buffer;
 }
 
+QByteArray Dynamixel::generateTorqueOffPacket() {
+
+    QByteArray buffer;
+    uint8_t parameterLength = 2 * (5+2) + 4;
+    uint8_t checkSum = 0;
+
+    // header
+    buffer[0] = 0xFF;
+    buffer[1] = 0xFF;
+
+    // instruction
+    buffer[2] = 0xFE;
+    buffer[3] = parameterLength;
+    buffer[4] = 0x83;
+    buffer[5] = 0x18;
+    buffer[6] = 0x01;
+
+
+    // yaw
+    for(uint8_t i=0; i<7; i++) {
+        buffer[i*2 + 7] = i+1;
+        buffer[i*2 + 8] = 0;
+    }
+
+    for(int i = 2; i < 21; i++) {
+        checkSum += buffer[i];
+    }
+    buffer[21] = ~checkSum;
+
+    return buffer;
+}
+
 void Dynamixel::addMessageBuffer(QByteArray buffer) {
     _messageBuffer += buffer.toStdString();
 }
@@ -132,41 +164,45 @@ bool Dynamixel::getReceivedPacket(QByteArray *received) {
     std::size_t index = _messageBuffer.find(0xFF,0);
     uint8_t paramLength = 0;
     uint8_t packetLength = 0;
-    uint8_t checksum = 0;
+    int8_t checksum = 0;
 
-    // find header
-    if(index == std::string::npos) {
-        _messageBuffer = "";
-        return false;
-    }
+    try {
+        // find header
+        if(index == std::string::npos) {
+            _messageBuffer = "";
+            return false;
+        }
 
-    // slice data
-    _messageBuffer = _messageBuffer.substr(index);
+        // slice data
+        _messageBuffer = _messageBuffer.substr(index);
 
-    if(_messageBuffer[1] != (int8_t)0xFF) {
-        _messageBuffer = "";
-        return false;
-    }
+        if(_messageBuffer[1] != (int8_t)0xFF) {
+            _messageBuffer = "";
+            return false;
+        }
 
-    paramLength = _messageBuffer[3];
-    packetLength = paramLength+4;
+        paramLength = _messageBuffer[3];
+        packetLength = paramLength+4;
 
-    // copy data
-    received->clear();
-    for(int i=0; i<packetLength; i++) {
-        received->push_back(_messageBuffer[i]);
-    }
+        // copy data
+        received->clear();
+        for(int i=0; i<packetLength; i++) {
+            received->push_back(_messageBuffer[i]);
+        }
 
-    // slice data
-    _messageBuffer = _messageBuffer.substr(packetLength-1);
+        // slice data
+        _messageBuffer = _messageBuffer.substr(packetLength-1);
 
-    // checksum
-    for(int i=2; i<packetLength-1; i++) {
-        checksum += received->at(i);
-    }
-    checksum = ~checksum;
+        // checksum
+        for(int i=2; i<packetLength-1; i++) {
+            checksum += received->at(i);
+        }
+        checksum = ~checksum;
 
-    if(checksum != received->at(packetLength-1)) {
+        if(checksum != received->at(packetLength-1)) {
+            return false;
+        }
+    } catch(std::exception e) {
         return false;
     }
 
