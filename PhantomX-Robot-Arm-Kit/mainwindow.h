@@ -18,6 +18,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    typedef struct {
+        dVector init;
+        dVector write;
+        dVector receive;
+    }Joint;
+
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -32,8 +39,7 @@ private:
     QTimer *_taskTimer;
 
     CKinematics *_kinematics;
-    dVector _qDefault;
-    dVector _q;
+    Joint _q;
 
     Dynamixel *_dynamixel;
 
