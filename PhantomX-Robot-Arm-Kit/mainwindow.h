@@ -8,6 +8,7 @@
 
 #include "serialport/serialport.h"
 #include "kinematics/kinematics.h"
+#include "dynamixel/dynamixel.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +17,13 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    typedef struct {
+        dVector init;
+        dVector write;
+        dVector receive;
+    }Joint;
+
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -31,8 +39,9 @@ private:
     QTimer *_taskTimer;
 
     CKinematics *_kinematics;
-    dVector _qDefault;
-    dVector _q;
+    Joint _q;
+
+    Dynamixel *_dynamixel;
 
 public slots:
     void valueChanged(int index, int val);
