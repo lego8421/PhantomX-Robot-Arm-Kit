@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +31,9 @@ SOURCES += \
     kinematics/posOriInverse.cpp \
     kinematics/quaternion.cpp \
     matrix/transformation.cpp \
-    opengl/oglObjects.cpp
+    opengl/oglObjects.cpp \
+    serialport/serialport.cpp \
+    dynamixel/dynamixel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +46,9 @@ HEADERS += \
     matrix/matrixAlgebra.h \
     matrix/transformation.h \
     opengl/oglDef.h \
-    opengl/oglObjects.h
+    opengl/oglObjects.h \
+    serialport/serialport.h \
+    dynamixel/dynamixel.h
 
 FORMS += \
         mainwindow.ui
