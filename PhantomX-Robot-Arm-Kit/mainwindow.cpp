@@ -6,23 +6,21 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
 
     // set ui object
-    _slider = new QSlider*[6];
+    _slider = new QSlider*[5];
     _slider[0] = ui->horizontalSlider0;
     _slider[1] = ui->horizontalSlider1;
     _slider[2] = ui->horizontalSlider2;
     _slider[3] = ui->horizontalSlider3;
     _slider[4] = ui->horizontalSlider4;
-    _slider[5] = ui->horizontalSlider5;
 
-    _lineEdit = new QLineEdit*[6];
+    _lineEdit = new QLineEdit*[5];
     _lineEdit[0] = ui->lineEdit0;
     _lineEdit[1] = ui->lineEdit1;
     _lineEdit[2] = ui->lineEdit2;
     _lineEdit[3] = ui->lineEdit3;
     _lineEdit[4] = ui->lineEdit4;
-    _lineEdit[5] = ui->lineEdit5;
 
-    for(int i=0; i<6; i++) {
+    for(int i=0; i<5; i++) {
 
         // set range, only number
         _lineEdit[i]->setValidator( new QIntValidator(-150, 150, this) );
@@ -48,13 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     ui->widget->setKinematics(_kinematics);
 
     // set init position
-    _q.init = dVector(6);
+    _q.init = dVector(5);
     _q.init[0] = 0.0;
     _q.init[1] = 90.0;
     _q.init[2] = -90.0;
     _q.init[3] = 0.0;
     _q.init[4] = 0.0;
-    _q.init[5] = 0.0;
 
     _q.write = _q.init * _DEG2RAD;
     _q.receive = _q.write;
@@ -115,7 +112,7 @@ void MainWindow::on_buttonReset_clicked() {
         ui->widget->setJointAngle(_q.receive);
         ui->widget->updateGL();
 
-        for(int i=0; i<6; i++) {
+        for(int i=0; i<5; i++) {
             _lineEdit[i]->setText(QString::number(_q.init[i]));
             _slider[i]->setValue(_q.init[i]);
         }
