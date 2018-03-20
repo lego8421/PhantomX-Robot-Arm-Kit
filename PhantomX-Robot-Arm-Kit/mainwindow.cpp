@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     for(int i=0; i<5; i++) {
 
         // set range, only number
-        _lineEdit[i]->setValidator( new QIntValidator(-150, 150, this) );
+        _lineEdit[i]->setValidator( new QIntValidator(-360, 360, this) );
 
         // set text signal
         connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) {
@@ -37,12 +37,12 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     // set link, joint
     _kinematics = new CPosOriInverse(POSITION_ORIENTATION);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.000, -90 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.150, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.145, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.070, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.080, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(PRISMATIC_JOINT, 0, 0.0, 0.0, 0.0, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -180.0 * _DEG2RAD, 180.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.000, -90 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.150, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, (-150.0 + Dynamixel::offset::ANGLE) * _DEG2RAD, (150.0 + Dynamixel::offset::ANGLE) * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.145, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, (-150.0 - Dynamixel::offset::ANGLE) * _DEG2RAD, (150.0 - Dynamixel::offset::ANGLE) * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.070, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.080, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(PRISMATIC_JOINT, 0, 0.0, 0.0, 0.0, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
     ui->widget->setKinematics(_kinematics);
 
     // set init position
