@@ -6,34 +6,66 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
 
     // set ui object
-    _slider = new QSlider*[5];
-    _slider[0] = ui->horizontalSlider0;
-    _slider[1] = ui->horizontalSlider1;
-    _slider[2] = ui->horizontalSlider2;
-    _slider[3] = ui->horizontalSlider3;
-    _slider[4] = ui->horizontalSlider4;
+    _sliderForward = new QSlider*[5];
+    _sliderForward[0] = ui->horizontalSlider0;
+    _sliderForward[1] = ui->horizontalSlider1;
+    _sliderForward[2] = ui->horizontalSlider2;
+    _sliderForward[3] = ui->horizontalSlider3;
+    _sliderForward[4] = ui->horizontalSlider4;
 
-    _lineEdit = new QLineEdit*[5];
-    _lineEdit[0] = ui->lineEdit0;
-    _lineEdit[1] = ui->lineEdit1;
-    _lineEdit[2] = ui->lineEdit2;
-    _lineEdit[3] = ui->lineEdit3;
-    _lineEdit[4] = ui->lineEdit4;
+    _lineEditForward = new QLineEdit*[5];
+    _lineEditForward[0] = ui->lineEdit0;
+    _lineEditForward[1] = ui->lineEdit1;
+    _lineEditForward[2] = ui->lineEdit2;
+    _lineEditForward[3] = ui->lineEdit3;
+    _lineEditForward[4] = ui->lineEdit4;
 
     for(int i=0; i<5; i++) {
 
         // set range, only number
-        _lineEdit[i]->setValidator( new QIntValidator(-360, 360, this) );
+        _lineEditForward[i]->setValidator( new QIntValidator(-360, 360, this) );
 
         // set text signal
-        connect(_lineEdit[i], &QLineEdit::textChanged, [=](QString text) {
+        connect(_lineEditForward[i], &QLineEdit::textChanged, [=](QString text) {
             bool ok = false;
-            _slider[i]->setValue(text.toInt(&ok));
+            _sliderForward[i]->setValue(text.toInt(&ok));
         });
 
         // set slider signal
-        connect(_slider[i], &QSlider::valueChanged, [=](int value) { valueChanged(i,value); });
+        connect(_sliderForward[i], &QSlider::valueChanged, [=](int value) { forwardValueChanged(i,value); });
     }
+
+    // set ui object
+    _sliderInverse = new QSlider*[4];
+    _sliderInverse[0] = ui->horizontalSliderX;
+    _sliderInverse[1] = ui->horizontalSliderY;
+    _sliderInverse[2] = ui->horizontalSliderZ;
+    _sliderInverse[3] = ui->horizontalSliderPhi;
+
+    _lineEditInverse = new QLineEdit*[4];
+    _lineEditInverse[0] = ui->lineEditX;
+    _lineEditInverse[1] = ui->lineEditY;
+    _lineEditInverse[2] = ui->lineEditZ;
+    _lineEditInverse[3] = ui->lineEditPhi;
+
+    for(int i=0; i<4; i++) {
+
+        // set range, only number
+        _lineEditInverse[i]->setValidator( new QIntValidator(-300, 300, this) );
+
+        // set text signal
+        connect(_lineEditInverse[i], &QLineEdit::textChanged, [=](QString text) {
+            bool ok = false;
+            _sliderInverse[i]->setValue(text.toInt(&ok));
+        });
+
+        // set slider signal
+        connect(_sliderInverse[i], &QSlider::valueChanged, [=](int value) { inverseValueChanged(i,value); });
+    }
+
+
+
+
 
     // set link, joint
     _kinematics = new CPosOriInverse(POSITION_ORIENTATION);
@@ -91,16 +123,20 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::valueChanged(int index, int val) {
+void MainWindow::forwardValueChanged(int index, int val) {
 
     _q.write[index] = val * _DEG2RAD;
-    _lineEdit[index]->setText(QString::number(val));
+    _lineEditForward[index]->setText(QString::number(val));
 
     if(!_serialPort->isOpen()) {
         _q.receive = _q.write;
         ui->widget->setJointAngle(_q.receive);
         ui->widget->updateGL();
     }
+}
+
+void MainWindow::inverseValueChanged(int index, int val) {
+    _lineEditInverse[index]->setText(QString::number(val));
 }
 
 void MainWindow::on_buttonReset_clicked() {
@@ -113,8 +149,8 @@ void MainWindow::on_buttonReset_clicked() {
         ui->widget->updateGL();
 
         for(int i=0; i<5; i++) {
-            _lineEdit[i]->setText(QString::number(_q.init[i]));
-            _slider[i]->setValue(_q.init[i]);
+            _lineEditForward[i]->setText(QString::number(_q.init[i]));
+            _sliderForward[i]->setValue(_q.init[i]);
         }
     }
 }

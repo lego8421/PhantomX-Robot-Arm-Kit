@@ -31,8 +31,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSlider **_slider;
-    QLineEdit **_lineEdit;
+    QSlider **_sliderForward;
+    QLineEdit **_lineEditForward;
+    QSlider **_sliderInverse;
+    QLineEdit **_lineEditInverse;
 
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;
@@ -44,7 +46,8 @@ private:
     Dynamixel *_dynamixel;
 
 public slots:
-    void valueChanged(int index, int val);
+    void forwardValueChanged(int index, int val);
+    void inverseValueChanged(int index, int val);
 
 private slots:
     void on_buttonReset_clicked();
