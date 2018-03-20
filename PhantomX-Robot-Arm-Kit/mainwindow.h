@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSlider>
 #include <QLineEdit>
+#include <QLabel>
 #include <QQueue>
 
 #include "serialport/serialport.h"
@@ -33,6 +34,8 @@ private:
     Ui::MainWindow *ui;
     QSlider **_sliderForward;
     QLineEdit **_lineEditForward;
+    QLabel ** _labelForward;
+
     QSlider **_sliderInverse;
     QLineEdit **_lineEditInverse;
 
@@ -44,6 +47,8 @@ private:
     Joint _q;
 
     Dynamixel *_dynamixel;
+
+    void printForwardKinematics();
 
 public slots:
     void forwardValueChanged(int index, int val);

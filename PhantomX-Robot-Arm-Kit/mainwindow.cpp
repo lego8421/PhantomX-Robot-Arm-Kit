@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _lineEditForward[3] = ui->lineEdit3;
     _lineEditForward[4] = ui->lineEdit4;
 
+    _labelForward = new QLabel*[4];
+    _labelForward[0] = ui->labelForwardX;
+    _labelForward[1] = ui->labelForwardY;
+    _labelForward[2] = ui->labelForwardZ;
+    _labelForward[3] = ui->labelForwardPhi;
+
     for(int i=0; i<5; i++) {
 
         // set range, only number
@@ -123,7 +129,24 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::printForwardKinematics() {
+
+    dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
+    QString text;
+
+    for(int i=0;i<4;i++) {
+        if(i < 3) {
+            text.sprintf("%4.2f",value[i] * 1000.0);
+        } else {
+            text.sprintf("%4.2f",value[i] * _RAD2DEG);
+        }
+
+        _labelForward[i]->setText(text);
+    }
+}
+
 void MainWindow::forwardValueChanged(int index, int val) {
+
 
     _q.write[index] = val * _DEG2RAD;
     _lineEditForward[index]->setText(QString::number(val));
@@ -132,6 +155,8 @@ void MainWindow::forwardValueChanged(int index, int val) {
         _q.receive = _q.write;
         ui->widget->setJointAngle(_q.receive);
         ui->widget->updateGL();
+
+        printForwardKinematics();
     }
 }
 
@@ -188,6 +213,8 @@ void MainWindow::doUserTask() {
 
         ui->widget->setJointAngle(_q.receive);
         ui->widget->updateGL();
+
+        printForwardKinematics();
     }
 
     if(_serialPort->isOpen()) {
