@@ -20,11 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _lineEditForward[3] = ui->lineEdit3;
     _lineEditForward[4] = ui->lineEdit4;
 
-    _labelForward = new QLabel*[4];
+    _labelForward = new QLabel*[6];
     _labelForward[0] = ui->labelForwardX;
     _labelForward[1] = ui->labelForwardY;
     _labelForward[2] = ui->labelForwardZ;
     _labelForward[3] = ui->labelForwardPhi;
+    _labelForward[4] = ui->labelForwardTheta;
+    _labelForward[5] = ui->labelForwardPsi;
 
     for(int i=0; i<5; i++) {
 
@@ -134,7 +136,7 @@ void MainWindow::printForwardKinematics() {
     dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
     QString text;
 
-    for(int i=0;i<4;i++) {
+    for(int i=0;i<6;i++) {
         if(i < 3) {
             text.sprintf("%4.2f",value[i] * 1000.0);
         } else {
