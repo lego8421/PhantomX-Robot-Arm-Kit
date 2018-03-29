@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     for(int i=0; i<5; i++) {
 
         // set range, only number
-        _lineEditForward[i]->setValidator( new QIntValidator(-360, 360, this) );
+        _lineEditForward[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
         connect(_lineEditForward[i], &QLineEdit::textChanged, [=](QString text) {
@@ -44,22 +44,26 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     }
 
     // set ui object
-    _sliderInverse = new QSlider*[4];
+    _sliderInverse = new QSlider*[6];
     _sliderInverse[0] = ui->horizontalSliderX;
     _sliderInverse[1] = ui->horizontalSliderY;
     _sliderInverse[2] = ui->horizontalSliderZ;
     _sliderInverse[3] = ui->horizontalSliderPhi;
+    _sliderInverse[4] = ui->horizontalSliderTheta;
+    _sliderInverse[5] = ui->horizontalSliderPsi;
 
-    _lineEditInverse = new QLineEdit*[4];
+    _lineEditInverse = new QLineEdit*[6];
     _lineEditInverse[0] = ui->lineEditX;
     _lineEditInverse[1] = ui->lineEditY;
     _lineEditInverse[2] = ui->lineEditZ;
     _lineEditInverse[3] = ui->lineEditPhi;
+    _lineEditInverse[4] = ui->lineEditTheta;
+    _lineEditInverse[5] = ui->lineEditPsi;
 
-    for(int i=0; i<4; i++) {
+    for(int i=0; i<6; i++) {
 
         // set range, only number
-        _lineEditInverse[i]->setValidator( new QIntValidator(-300, 300, this) );
+        _lineEditInverse[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
         connect(_lineEditInverse[i], &QLineEdit::textChanged, [=](QString text) {
@@ -77,12 +81,11 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     // set link, joint
     _kinematics = new CPosOriInverse(POSITION_ORIENTATION);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.000, -90 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.000, -90 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.0);
     _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.150, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, (-150.0 + Dynamixel::offset::ANGLE) * _DEG2RAD, (150.0 + Dynamixel::offset::ANGLE) * _DEG2RAD, 0 * _DEG2RAD, 1.);
     _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.145, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, (-150.0 - Dynamixel::offset::ANGLE) * _DEG2RAD, (150.0 - Dynamixel::offset::ANGLE) * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.070, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.080, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
-    _kinematics->AttachJoint(PRISMATIC_JOINT, 0, 0.0, 0.0, 0.0, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 0, 0.0, 0.0, 0.070, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.0);
+    _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.080, 0 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.0);
     ui->widget->setKinematics(_kinematics);
 
     // set init position
@@ -149,16 +152,17 @@ void MainWindow::printForwardKinematics() {
 
 void MainWindow::forwardValueChanged(int index, int val) {
 
+    if(ui->tabWidget->currentIndex() == 0) {
+        _q.write[index] = val * _DEG2RAD;
+        _lineEditForward[index]->setText(QString::number(val));
 
-    _q.write[index] = val * _DEG2RAD;
-    _lineEditForward[index]->setText(QString::number(val));
+        if(!_serialPort->isOpen()) {
+            _q.receive = _q.write;
+            ui->widget->setJointAngle(_q.receive);
+            ui->widget->updateGL();
 
-    if(!_serialPort->isOpen()) {
-        _q.receive = _q.write;
-        ui->widget->setJointAngle(_q.receive);
-        ui->widget->updateGL();
-
-        printForwardKinematics();
+            printForwardKinematics();
+        }
     }
 }
 
