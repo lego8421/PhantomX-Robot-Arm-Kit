@@ -60,6 +60,13 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _lineEditInverse[4] = ui->lineEditTheta;
     _lineEditInverse[5] = ui->lineEditPsi;
 
+    _labelInverse = new QLabel*[5];
+    _labelInverse[0] = ui->labelInverseQ0;
+    _labelInverse[1] = ui->labelInverseQ1;
+    _labelInverse[2] = ui->labelInverseQ2;
+    _labelInverse[3] = ui->labelInverseQ3;
+    _labelInverse[4] = ui->labelInverseQ4;
+
     for(int i=0; i<6; i++) {
 
         // set range, only number
@@ -89,34 +96,29 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     ui->widget->setKinematics(_kinematics);
 
     // set init position
-    _q.init[FORWARD] = dVector(5);
-    _q.init[INVERSE] = dVector(6);
-    _q.target[FORWARD] = dVector(5);
-    _q.target[INVERSE] = dVector(6);
-    _q.current[FORWARD] = dVector(5);
-    _q.current[INVERSE] = dVector(6);
+    _q.init = dVector(5);
+    _q.target = dVector(5);
+    _q.current = dVector(5);
 
-    _q.init[FORWARD][0] = 0.0 * _DEG2RAD;
-    _q.init[FORWARD][1] = 90.0 * _DEG2RAD;
-    _q.init[FORWARD][2] = -90.0 * _DEG2RAD;
-    _q.init[FORWARD][3] = 0.0 * _DEG2RAD;
-    _q.init[FORWARD][4] = 0.0 * _DEG2RAD;
+    _q.init[0] = 0.0 * _DEG2RAD;
+    _q.init[1] = 90.0 * _DEG2RAD;
+    _q.init[2] = -90.0 * _DEG2RAD;
+    _q.init[3] = 0.0 * _DEG2RAD;
+    _q.init[4] = 0.0 * _DEG2RAD;
 
-    _q.target[FORWARD] = _q.init[FORWARD];
-    _q.current[FORWARD] = _q.init[FORWARD];
+    _q.target = _q.init;
+    _q.current = _q.init;
+    ui->widget->setJointAngle(_q.init);
 
-    _q.init[INVERSE][0] = 0.0;
-    _q.init[INVERSE][1] = 295.0;
-    _q.init[INVERSE][2] = 150.0;
-    _q.init[INVERSE][3] = -90.0 * _DEG2RAD;
-    _q.init[INVERSE][4] = 0.0 * _DEG2RAD;
-    _q.init[INVERSE][5] = 0.0 * _DEG2RAD;
+    _target = dVector(6);
+    _target[0] = 0.0;
+    _target[1] = 0.295;
+    _target[2] = 0.15;
+    _target[3] = -90.0 * _DEG2RAD;
+    _target[4] = 0.0 * _DEG2RAD;
+    _target[5] = 0.0 * _DEG2RAD;
+    _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
 
-    _q.target[INVERSE] = _q.init[INVERSE];
-    _q.current[INVERSE] = _q.init[INVERSE];
-
-
-    ui->widget->setJointAngle(_q.init[FORWARD]);
 
     _dynamixel = new Dynamixel(Dynamixel::type::AX);
 
@@ -128,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     // set serial signal connect
     connect(_serialPort, &Serialport::connected, [=](QString portName) {
         ui->statusBar->showMessage("connected: " + portName,1000);
-//        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.write));
+        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
     });
     connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
         ui->statusBar->showMessage("disconnected: " + portName,1000);
@@ -167,6 +169,17 @@ void MainWindow::printForwardKinematics() {
     }
 }
 
+void MainWindow::printInverseKinematics() {
+
+    dVector value = _kinematics->GetJointAngle();
+    QString text;
+
+    for(int i=0;i<5;i++) {
+        text.sprintf("%4.0f",value[i] * _RAD2DEG);
+        _labelInverse[i]->setText(text);
+    }
+}
+
 dVector MainWindow::getForwardSliderValue() {
     dVector forward(5);
 
@@ -181,9 +194,11 @@ dVector MainWindow::getInverseSliderValue() {
     dVector inverse(6);
 
     for(int i=0; i<6; i++) {
-        inverse[i] = _sliderInverse[i]->value();
-        if(i >= 3)
-            inverse[i] *= _DEG2RAD;
+        if(i < 3) {
+            inverse[i] = _sliderInverse[i]->value() / 1000.0;
+        } else {
+            inverse[i] = _sliderInverse[i]->value() * _DEG2RAD;
+        }
     }
 
     return inverse;
@@ -192,37 +207,80 @@ dVector MainWindow::getInverseSliderValue() {
 void MainWindow::forwardValueChanged(int index, int val) {
 
     _lineEditForward[index]->setText(QString::number(val));
+
+    _q.target[index] = val * _DEG2RAD;
 }
 
 void MainWindow::inverseValueChanged(int index, int val) {
 
     _lineEditInverse[index]->setText(QString::number(val));
+
+    if(index < 3) {
+        _target[index] = val / 1000.0;
+    } else {
+        _target[index] = val * _DEG2RAD;
+    }
 }
 
 void MainWindow::on_buttonReset_clicked() {
 
     for(int i=0; i<5;i++) {
-        _sliderForward[i]->setValue(_q.init[FORWARD][i] * _RAD2DEG);
+        _sliderForward[i]->setValue(_q.init[i] * _RAD2DEG);
     }
 
-    for(int i=0; i<6;i++) {
-        if(i < 3)
-            _sliderInverse[i]->setValue(_q.init[INVERSE][i]);
-        else
-            _sliderInverse[i]->setValue(_q.init[INVERSE][i] * _RAD2DEG);
-    }
-
-
-    ui->widget->setJointAngle(_q.init[FORWARD]);
+    ui->widget->setJointAngle(_q.init);
     ui->widget->updateGL();
+
+    dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
+
+    for(int i=0; i<6; i++) {
+        if(i < 3) {
+            _sliderInverse[i]->setValue(value[i] * 1000.0);
+        } else {
+            _sliderInverse[i]->setValue(value[i] * _RAD2DEG);
+        }
+    }
 }
 
 void MainWindow::doUserTask() {
 
-    dVector forwardSliderValue = getForwardSliderValue();
-    dVector inverseSliderValue = getInverseSliderValue();
+    if(ui->tabWidget->currentIndex() == FORWARD) {
+        dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
 
-    printForwardKinematics();
+        for(int i=0; i<6; i++) {
+            if(i < 3) {
+                _sliderInverse[i]->setValue(value[i] * 1000.0);
+            } else {
+                _sliderInverse[i]->setValue(value[i] * _RAD2DEG);
+            }
+        }
+
+        _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
+
+        printForwardKinematics();
+
+        ui->widget->setJointAngle(_q.target);
+    } else if(ui->tabWidget->currentIndex() == INVERSE) {
+        _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
+        dVector dq = _kinematics->SolveDLS(0.01, 0.03, 0.01);
+        _q.target += dq;
+
+        printInverseKinematics();
+    }
+
+    if(_serialPort->isOpen()) {
+        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
+        for(int id=1; id<8; id++) {
+            _serialPort->write(_dynamixel->generateGetJointAngleByIdPacket(id));
+        }
+
+        ui->widget->setJointAngle(_q.current);
+    } else {
+        ui->widget->setJointAngle(_q.target);
+    }
+    _kinematics->Forward();
+    ui->widget->updateGL();
+
 
     if(!_messageQueue->isEmpty()) {
         QByteArray buffer = _messageQueue->dequeue();
@@ -231,53 +289,24 @@ void MainWindow::doUserTask() {
 
         switch(id) {
         case 1:
-//            _q.receive[0] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _q.current[0] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
             break;
 
         case 3:
-//            _q.receive[1] = (_dynamixel->convertDynamixelToAngle(pos) - Dynamixel::offset::LINK + Dynamixel::offset::ANGLE) * _DEG2RAD;
+            _q.current[1] = (_dynamixel->convertDynamixelToAngle(pos) - Dynamixel::offset::LINK + Dynamixel::offset::ANGLE) * _DEG2RAD;
             break;
 
         case 4:
-//            _q.receive[2] = (_dynamixel->convertDynamixelToAngle(pos) + Dynamixel::offset::LINK - Dynamixel::offset::ANGLE) * _DEG2RAD;
+            _q.current[2] = (_dynamixel->convertDynamixelToAngle(pos) + Dynamixel::offset::LINK - Dynamixel::offset::ANGLE) * _DEG2RAD;
             break;
 
         case 6:
-//            _q.receive[3] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _q.current[3] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
             break;
 
         case 7:
-//            _q.receive[4] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+            _q.current[4] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
             break;
-        }
-
-//        ui->widget->setJointAngle(_q.receive);
-        ui->widget->updateGL();
-
-        printForwardKinematics();
-    }
-
-    if(_serialPort->isOpen()) {
-//        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.write));
-        for(int id=1; id<8; id++) {
-            _serialPort->write(_dynamixel->generateGetJointAngleByIdPacket(id));
-        }
-    } else {
-        if(ui->tabWidget->currentIndex() == 0) {
-
-            ui->widget->setJointAngle(forwardSliderValue);
-            ui->widget->updateGL();
-
-            dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
-
-            for(int i=0;i<6;i++) {
-                if(i < 3)
-                    _sliderInverse[i]->setValue(value[i] * 1000.0);
-                else
-                    _sliderInverse[i]->setValue(value[i] * _RAD2DEG);
-            }
-        } else if(ui->tabWidget->currentIndex() == 1) {
-
         }
     }
 }

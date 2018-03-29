@@ -8,7 +8,7 @@
 #include <QQueue>
 
 #include "serialport/serialport.h"
-#include "kinematics/kinematics.h"
+#include "kinematics/posOriInverse.h"
 #include "dynamixel/dynamixel.h"
 
 namespace Ui {
@@ -19,17 +19,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum type {
+    enum KinematicsIndex{
         FORWARD = 0,
         INVERSE = 1
     };
 
     typedef struct {
-        dVector init[2];
-        dVector target[2];
-        dVector current[2];
+        dVector init;
+        dVector target;
+        dVector current;
     }Joint;
-
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -43,17 +42,20 @@ private:
 
     QSlider **_sliderInverse;
     QLineEdit **_lineEditInverse;
+    QLabel ** _labelInverse;
 
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;
     QTimer *_taskTimer;
 
-    CKinematics *_kinematics;
+    CPosOriInverse *_kinematics;
     Joint _q;
+    dVector _target;
 
     Dynamixel *_dynamixel;
 
     void printForwardKinematics();
+    void printInverseKinematics();
     dVector getForwardSliderValue();
     dVector getInverseSliderValue();
 
