@@ -19,10 +19,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum type {
+        FORWARD = 0,
+        INVERSE = 1
+    };
+
     typedef struct {
-        dVector init;
-        dVector write;
-        dVector receive;
+        dVector init[2];
+        dVector target[2];
+        dVector current[2];
     }Joint;
 
 
@@ -49,6 +54,8 @@ private:
     Dynamixel *_dynamixel;
 
     void printForwardKinematics();
+    dVector getForwardSliderValue();
+    dVector getInverseSliderValue();
 
 public slots:
     void forwardValueChanged(int index, int val);
