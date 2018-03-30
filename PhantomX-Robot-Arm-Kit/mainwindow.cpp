@@ -258,8 +258,6 @@ void MainWindow::doUserTask() {
         _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
 
         printForwardKinematics();
-
-        ui->widget->setJointAngle(_q.target);
     } else if(ui->tabWidget->currentIndex() == INVERSE) {
         _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
         dVector dq = _kinematics->SolveDLS(0.01, 0.03, 0.01);
