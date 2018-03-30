@@ -263,6 +263,10 @@ void MainWindow::doUserTask() {
         dVector dq = _kinematics->SolveDLS(0.01, 0.03, 0.01);
         _q.target += dq;
 
+        for(int i=0; i<5; i++) {
+            _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
+        }
+
         printInverseKinematics();
     }
 
