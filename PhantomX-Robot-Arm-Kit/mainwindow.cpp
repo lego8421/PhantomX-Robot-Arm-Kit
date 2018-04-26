@@ -271,16 +271,9 @@ void MainWindow::doUserTask() {
     }
 
     if(_serialPort->isOpen()) {
-        uint8_t id[5] = {1, 3, 4, 6, 7};
         _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
-        for(int i=0; i<5; i++) {
-            _serialPort->write(_dynamixel->generateGetJointAngleByIdPacket(id[i]));
-        }
-
-        ui->widget->setJointAngle(_q.current);
-    } else {
-        ui->widget->setJointAngle(_q.target);
     }
+    ui->widget->setJointAngle(_q.target);
     _kinematics->Forward();
     ui->widget->updateGL();
 
