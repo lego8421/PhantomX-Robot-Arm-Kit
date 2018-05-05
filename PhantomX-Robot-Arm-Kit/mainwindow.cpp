@@ -145,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     // set user task timer
     _taskTimer = new QTimer(this);
-    _taskTimer->start(20);
+    _taskTimer->start(TASK_TIME);
     connect(_taskTimer,SIGNAL(timeout()),this,SLOT(doUserTask()));
 }
 

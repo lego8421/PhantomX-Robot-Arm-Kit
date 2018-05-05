@@ -48,6 +48,8 @@ private:
     QQueue<QByteArray> *_messageQueue;
     QTimer *_taskTimer;
 
+    const int TASK_TIME = 20;   // 20ms
+
     CPosOriInverse *_kinematics;
     Joint _q;
     dVector _target;
