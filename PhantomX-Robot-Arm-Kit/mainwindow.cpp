@@ -175,7 +175,7 @@ void MainWindow::printInverseKinematics() {
     QString text;
 
     for(int i=0;i<5;i++) {
-        text.sprintf("%4.0f",value[i] * _RAD2DEG);
+        text.sprintf("%4.0f", value[i] * _RAD2DEG);
         _labelInverse[i]->setText(text);
     }
 }
@@ -242,10 +242,16 @@ void MainWindow::on_buttonReset_clicked() {
     }
 }
 
+void MainWindow::on_pushButtonPathApply_clicked()
+{
+
+}
+
 void MainWindow::doUserTask() {
 
     if(ui->tabWidget->currentIndex() == FORWARD) {
         dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
+        _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
 
         for(int i=0; i<6; i++) {
             if(i < 3) {
@@ -255,19 +261,18 @@ void MainWindow::doUserTask() {
             }
         }
 
-        _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
-
         printForwardKinematics();
     } else if(ui->tabWidget->currentIndex() == INVERSE) {
         _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
-        dVector dq = _kinematics->SolveDLS(0.01, 0.03, 0.01);
-        _q.target += dq;
+        _q.target += _kinematics->SolveDLS(0.01, 0.03, 0.01);
 
         for(int i=0; i<5; i++) {
             _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
         }
 
         printInverseKinematics();
+    } else if(ui->tabWidget->currentIndex() == PATH) {
+
     }
 
     if(_serialPort->isOpen()) {
@@ -276,7 +281,6 @@ void MainWindow::doUserTask() {
     ui->widget->setJointAngle(_q.target);
     _kinematics->Forward();
     ui->widget->updateGL();
-
 
     if(!_messageQueue->isEmpty()) {
         QByteArray buffer = _messageQueue->dequeue();

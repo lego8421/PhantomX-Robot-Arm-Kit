@@ -19,9 +19,10 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum KinematicsIndex{
+    enum TabIndex{
         FORWARD = 0,
-        INVERSE = 1
+        INVERSE = 1,
+        PATH = 2
     };
 
     typedef struct {
@@ -69,6 +70,7 @@ private slots:
     void on_buttonReset_clicked();
 
     void doUserTask();
+    void on_pushButtonPathApply_clicked();
 };
 
 #endif // MAINWINDOW_H
