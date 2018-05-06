@@ -4,9 +4,9 @@ GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent) {
 
     _eyePos = CPoint3d(1.1, -0.03, 0.4);
-    _centerPos = CPoint3d(0, 0, 0.14);
-    _angleHor = -35.0;
-    _angleVer = 10.5;
+    _centerPos = CPoint3d(0, 0.15, 0.1);
+    _angleHor = -30.0;
+    _angleVer = 10.0;
     _fovAngle = 45.0;
 }
 

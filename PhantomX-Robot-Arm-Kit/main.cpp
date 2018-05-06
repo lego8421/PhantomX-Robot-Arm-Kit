@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-#define APP_VERSION "1.1.0"
+#define APP_VERSION "1.2.0"
 
 int main(int argc, char *argv[])
 {

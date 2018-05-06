@@ -4,10 +4,11 @@
 #include <QMainWindow>
 #include <QSlider>
 #include <QLineEdit>
+#include <QLabel>
 #include <QQueue>
 
 #include "serialport/serialport.h"
-#include "kinematics/kinematics.h"
+#include "kinematics/posOriInverse.h"
 #include "dynamixel/dynamixel.h"
 
 namespace Ui {
@@ -18,12 +19,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum KinematicsIndex{
+        FORWARD = 0,
+        INVERSE = 1
+    };
+
     typedef struct {
         dVector init;
-        dVector write;
-        dVector receive;
+        dVector target;
+        dVector current;
     }Joint;
-
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -31,20 +36,34 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSlider **_slider;
-    QLineEdit **_lineEdit;
+    QSlider **_sliderForward;
+    QLineEdit **_lineEditForward;
+    QLabel ** _labelForward;
+
+    QSlider **_sliderInverse;
+    QLineEdit **_lineEditInverse;
+    QLabel ** _labelInverse;
 
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;
     QTimer *_taskTimer;
 
-    CKinematics *_kinematics;
+    const int TASK_TIME = 20;   // 20ms
+
+    CPosOriInverse *_kinematics;
     Joint _q;
+    dVector _target;
 
     Dynamixel *_dynamixel;
 
+    void printForwardKinematics();
+    void printInverseKinematics();
+    dVector getForwardSliderValue();
+    dVector getInverseSliderValue();
+
 public slots:
-    void valueChanged(int index, int val);
+    void forwardValueChanged(int index, int val);
+    void inverseValueChanged(int index, int val);
 
 private slots:
     void on_buttonReset_clicked();
