@@ -201,7 +201,24 @@ void MainWindow::on_buttonReset_clicked() {
 }
 
 void MainWindow::on_pushButtonPathApply_clicked() {
+    bool ok = false;
+
     _pathCount = 0;
+    _node->clear();
+
+    for(int i=0; i<8; i++) {
+        QVector<double> node;
+        node.push_back(_lineEditPath[i][0]->text().toDouble(&ok));
+        node.push_back(_lineEditPath[i][1]->text().toDouble(&ok) / 1000.0);
+        node.push_back(_lineEditPath[i][2]->text().toDouble(&ok) / 1000.0);
+        node.push_back(_lineEditPath[i][3]->text().toDouble(&ok) / 1000.0);
+        node.push_back(_lineEditPath[i][4]->text().toDouble(&ok) * _DEG2RAD);
+        node.push_back(_lineEditPath[i][5]->text().toDouble(&ok) * _DEG2RAD);
+        node.push_back(_lineEditPath[i][6]->text().toDouble(&ok) * _DEG2RAD);
+        _node->push_back(node);
+    }
+
+    ui->widget->setNode(_node);
 }
 
 
@@ -318,6 +335,7 @@ void MainWindow::setUiObject() {
     _lineEditPath[6][4] = ui->lineEditPathPhi6;     _lineEditPath[6][5] = ui->lineEditPathTheta6;   _lineEditPath[6][6] = ui->lineEditPathPsi6;
     _lineEditPath[7][4] = ui->lineEditPathPhi7;     _lineEditPath[7][5] = ui->lineEditPathTheta7;   _lineEditPath[7][6] = ui->lineEditPathPsi7;
 
+    _node = new QVector<QVector<double>>(8);
     for(int i=0; i<8; i++) {
         for(int j=0; j<7; j++) {
             _lineEditPath[i][j]->setValidator(new QDoubleValidator(this));

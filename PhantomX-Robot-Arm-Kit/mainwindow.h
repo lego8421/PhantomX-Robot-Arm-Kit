@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QQueue>
+#include <QVector>
 
 #include "serialport/serialport.h"
 #include "kinematics/posOriInverse.h"
@@ -57,7 +58,7 @@ private:
     Joint _q;
     dVector _target;
 
-    QVector<QVector<double>> _node;
+    QVector<QVector<double>>* _node;
     uint32_t _pathCount;
 
     Dynamixel *_dynamixel;

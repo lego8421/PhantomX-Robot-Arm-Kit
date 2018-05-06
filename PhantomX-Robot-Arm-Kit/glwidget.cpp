@@ -55,11 +55,11 @@ void GLWidget::paintGL() {
     oglPlane(5.0, 0.5);
 
     if(_node) {
-        glColor3d(.5, 0., .5);
+        glColor3d(0.5, 0.0, 0.5);
         renderPath (_node);
     }
     if(_path) {
-        glColor3d(1., 0., 1.);
+        glColor3d(1.0, 0.0, 1.0);
         renderPath (_path);
     }
 
