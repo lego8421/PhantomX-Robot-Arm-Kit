@@ -8,6 +8,9 @@ GLWidget::GLWidget(QWidget *parent) :
     _angleHor = -30.0;
     _angleVer = 10.0;
     _fovAngle = 45.0;
+
+    _node = NULL;
+    _path = NULL;
 }
 
 void GLWidget::initializeGL() {
@@ -51,6 +54,15 @@ void GLWidget::paintGL() {
     setViewport();
     oglPlane(5.0, 0.5);
 
+    if(_node) {
+        glColor3d(.5, 0., .5);
+        renderPath (_node);
+    }
+    if(_path) {
+        glColor3d(1., 0., 1.);
+        renderPath (_path);
+    }
+
     renderTarget();
     renderJoint();
 
@@ -90,7 +102,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 
 void GLWidget::mousePressEvent(QMouseEvent *event) {
 
-
     if(event->buttons() != Qt::MiddleButton) {
         _mouseDownPoint = event->localPos();
     } else {
@@ -124,8 +135,15 @@ void GLWidget::setKinematics(CKinematics *kinematics) {
     _kinematics = kinematics;
 }
 
-void GLWidget::setJointAngle(dVector &q)
-{
+void GLWidget::setPath(QVector<QVector<double>> *path) {
+    _path = path;
+}
+
+void GLWidget::setNode(QVector<QVector<double>> *node) {
+    _node = node;
+}
+
+void GLWidget::setJointAngle(dVector &q) {
     _kinematics->SetJointAngle(q);
 }
 
@@ -149,7 +167,17 @@ void GLWidget::transformAxis(dMatrix A) {
     glMultMatrixd(m);
 }
 
-void GLWidget::renderTarget () {
+void GLWidget::renderPath(QVector<QVector<double>> *path)
+{
+    std::vector<CPoint3d> line;
+    for (unsigned int i=0; i<path->size(); ++i) {
+        QVector<double> &p = (*path)[i];
+        line.push_back (CPoint3d(p[1], p[2], p[3]));
+    }
+    oglLineStrip (line);
+}
+
+void GLWidget::renderTarget() {
     dVector desired = _kinematics->GetDesired ();
 
     glPushMatrix();

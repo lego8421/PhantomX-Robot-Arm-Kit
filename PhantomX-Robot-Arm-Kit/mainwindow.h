@@ -45,6 +45,8 @@ private:
     QLineEdit **_lineEditInverse;
     QLabel ** _labelInverse;
 
+    QLineEdit ***_lineEditPath;
+
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;
     QTimer *_taskTimer;
@@ -55,12 +57,17 @@ private:
     Joint _q;
     dVector _target;
 
+    QVector<QVector<double>> _node;
+    uint32_t _pathCount;
+
     Dynamixel *_dynamixel;
 
     void printForwardKinematics();
     void printInverseKinematics();
     dVector getForwardSliderValue();
     dVector getInverseSliderValue();
+
+    void setUiObject();
 
 public slots:
     void forwardValueChanged(int index, int val);
