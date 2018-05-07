@@ -1,16 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <vector>
+#include <valarray>
+
 #include <QMainWindow>
 #include <QSlider>
 #include <QLineEdit>
 #include <QLabel>
 #include <QQueue>
-#include <QVector>
 
-#include "serialport/serialport.h"
 #include "kinematics/posOriInverse.h"
+#include "interpolation.h"
 #include "dynamixel/dynamixel.h"
+#include "serialport/serialport.h"
 
 namespace Ui {
 class MainWindow;
@@ -58,7 +61,8 @@ private:
     Joint _q;
     dVector _target;
 
-    QVector<QVector<double>>* _node;
+    std::vector<std::valarray<double>> _node;
+    std::vector<std::valarray<double>> _path;
     uint32_t _pathCount;
 
     Dynamixel *_dynamixel;

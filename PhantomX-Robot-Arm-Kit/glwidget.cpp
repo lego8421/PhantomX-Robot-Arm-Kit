@@ -135,11 +135,11 @@ void GLWidget::setKinematics(CKinematics *kinematics) {
     _kinematics = kinematics;
 }
 
-void GLWidget::setPath(QVector<QVector<double>> *path) {
+void GLWidget::setPath(std::vector<std::valarray<double>> *path) {
     _path = path;
 }
 
-void GLWidget::setNode(QVector<QVector<double>> *node) {
+void GLWidget::setNode(std::vector<std::valarray<double>> *node) {
     _node = node;
 }
 
@@ -167,11 +167,11 @@ void GLWidget::transformAxis(dMatrix A) {
     glMultMatrixd(m);
 }
 
-void GLWidget::renderPath(QVector<QVector<double>> *path)
+void GLWidget::renderPath(std::vector<std::valarray<double>> *path)
 {
     std::vector<CPoint3d> line;
     for (unsigned int i=0; i<path->size(); ++i) {
-        QVector<double> &p = (*path)[i];
+        std::valarray<double> &p = (*path)[i];
         line.push_back (CPoint3d(p[1], p[2], p[3]));
     }
     oglLineStrip (line);

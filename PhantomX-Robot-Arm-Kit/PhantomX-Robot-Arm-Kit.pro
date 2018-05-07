@@ -33,7 +33,8 @@ SOURCES += \
     matrix/transformation.cpp \
     opengl/oglObjects.cpp \
     serialport/serialport.cpp \
-    dynamixel/dynamixel.cpp
+    dynamixel/dynamixel.cpp \
+    interpolation.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     opengl/oglDef.h \
     opengl/oglObjects.h \
     serialport/serialport.h \
-    dynamixel/dynamixel.h
+    dynamixel/dynamixel.h \
+    interpolation.h
 
 FORMS += \
         mainwindow.ui

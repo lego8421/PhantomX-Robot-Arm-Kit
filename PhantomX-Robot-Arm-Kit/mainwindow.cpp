@@ -99,7 +99,25 @@ void MainWindow::doUserTask() {
 
         printInverseKinematics();
     } else if(ui->tabWidget->currentIndex() == PATH) {
+        if(_path.size()) {
+            if(_pathCount >= _path.size()) {
+                _pathCount = 0;
+            }
 
+            for(int i=0; i<6; i++) {
+                _target[i] = _path[_pathCount][i+1];
+            }
+
+            _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
+            _q.target += _kinematics->SolveDLS(0.01, 0.03, 0.01);
+
+            for(int i=0; i<5; i++) {
+                _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
+            }
+
+            printInverseKinematics();
+            _pathCount++;
+        }
     }
 
     if(_serialPort->isOpen()) {
@@ -204,21 +222,25 @@ void MainWindow::on_pushButtonPathApply_clicked() {
     bool ok = false;
 
     _pathCount = 0;
-    _node->clear();
+    _node.clear();
+    _path.clear();
 
     for(int i=0; i<8; i++) {
-        QVector<double> node;
-        node.push_back(_lineEditPath[i][0]->text().toDouble(&ok));
-        node.push_back(_lineEditPath[i][1]->text().toDouble(&ok) / 1000.0);
-        node.push_back(_lineEditPath[i][2]->text().toDouble(&ok) / 1000.0);
-        node.push_back(_lineEditPath[i][3]->text().toDouble(&ok) / 1000.0);
-        node.push_back(_lineEditPath[i][4]->text().toDouble(&ok) * _DEG2RAD);
-        node.push_back(_lineEditPath[i][5]->text().toDouble(&ok) * _DEG2RAD);
-        node.push_back(_lineEditPath[i][6]->text().toDouble(&ok) * _DEG2RAD);
-        _node->push_back(node);
+        double a[7] = {0.0, };
+        a[0] = _lineEditPath[i][0]->text().toDouble(&ok);
+        a[1] = _lineEditPath[i][1]->text().toDouble(&ok) / 1000.0;
+        a[2] = _lineEditPath[i][2]->text().toDouble(&ok) / 1000.0;
+        a[3] = _lineEditPath[i][3]->text().toDouble(&ok) / 1000.0;
+        a[4] = _lineEditPath[i][4]->text().toDouble(&ok) * _DEG2RAD;
+        a[5] = _lineEditPath[i][5]->text().toDouble(&ok) * _DEG2RAD;
+        a[6] = _lineEditPath[i][6]->text().toDouble(&ok) * _DEG2RAD;
+        _node.push_back (std::valarray<double>(&a[0], 7));
     }
 
-    ui->widget->setNode(_node);
+    _path = linearInterpolation(_node, (double)TASK_TIME/1000.0);
+
+    ui->widget->setNode(&_node);
+    ui->widget->setPath(&_path);
 }
 
 
@@ -301,8 +323,6 @@ void MainWindow::setUiObject() {
     }
 
     // set path
-    _pathCount = 0;
-
     _lineEditPath = new QLineEdit**[8];
     for(int i=0; i<8; i++) {
         _lineEditPath[i] = new QLineEdit*[7];
@@ -335,12 +355,16 @@ void MainWindow::setUiObject() {
     _lineEditPath[6][4] = ui->lineEditPathPhi6;     _lineEditPath[6][5] = ui->lineEditPathTheta6;   _lineEditPath[6][6] = ui->lineEditPathPsi6;
     _lineEditPath[7][4] = ui->lineEditPathPhi7;     _lineEditPath[7][5] = ui->lineEditPathTheta7;   _lineEditPath[7][6] = ui->lineEditPathPsi7;
 
-    _node = new QVector<QVector<double>>(8);
     for(int i=0; i<8; i++) {
         for(int j=0; j<7; j++) {
             _lineEditPath[i][j]->setValidator(new QDoubleValidator(this));
         }
     }
+
+    _pathCount = 0;
+    _node.clear();
+    _path.clear();
+
 }
 
 void MainWindow::printForwardKinematics() {
