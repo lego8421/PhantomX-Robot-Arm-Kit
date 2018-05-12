@@ -27,6 +27,8 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
 
+    void setPath(std::vector<std::valarray<double>> *path);
+    void setNode(std::vector<std::valarray<double>> *node);
     void setKinematics(CKinematics *kinematics);
     void setJointAngle(dVector &q);
 
@@ -58,17 +60,20 @@ private:
 
     // kinematics
     CKinematics *_kinematics;
+    std::vector<std::valarray<double>> *_node;
+    std::vector<std::valarray<double>> *_path;
 
     void setViewport();
 
     void transformAxis(dMatrix A);
-    void drawRevLink (double x, double y, double z, double radius);
+    void drawRevLink(double x, double y, double z, double radius);
 
-    void drawFixedJoint (JointInfo *joint);
-    void drawRevoluteJoint (JointInfo *joint);
-    void drawPrismaticJoint (JointInfo *joint);
+    void drawFixedJoint(JointInfo *joint);
+    void drawRevoluteJoint(JointInfo *joint);
+    void drawPrismaticJoint(JointInfo *joint);
 
-    void renderTarget ();
+    void renderPath(std::vector<std::valarray<double>> *path);
+    void renderTarget();
     void renderJoint();
 };
 
