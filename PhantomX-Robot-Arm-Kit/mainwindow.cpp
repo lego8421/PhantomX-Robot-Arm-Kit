@@ -226,6 +226,8 @@ void MainWindow::on_buttonReset_clicked() {
             _lineEditInverse[i]->setText(QString::number(value[i] * _RAD2DEG));
         }
     }
+    _target = value;
+    _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
     ui->widget->updateGL();
 
     _interpolation.pathCount = 0;

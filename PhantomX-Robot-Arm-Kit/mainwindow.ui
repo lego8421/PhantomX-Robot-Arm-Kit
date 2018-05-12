@@ -1282,9 +1282,9 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tabPath">
+        <widget class="QWidget" name="tabInterpolation">
          <attribute name="title">
-          <string>Linear interpolation</string>
+          <string>Interpolation</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
