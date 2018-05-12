@@ -10,6 +10,12 @@
 #include <QLabel>
 #include <QQueue>
 
+#include <QCamera>
+#include <QCameraInfo>
+#include <QCameraViewfinder>
+#include <QCameraImageCapture>
+#include <QScreen>
+
 #include "kinematics/posOriInverse.h"
 #include "interpolation.h"
 #include "dynamixel/dynamixel.h"
@@ -26,7 +32,8 @@ class MainWindow : public QMainWindow
     enum TabIndex{
         FORWARD = 0,
         INVERSE = 1,
-        PATH = 2
+        PATH = 2,
+        CAMERA = 3
     };
 
     typedef struct {
@@ -57,6 +64,11 @@ private:
     QLabel ** _labelInverse;
 
     QLineEdit ***_lineEditPath;
+
+    QCamera             *mCamera;
+    QCameraViewfinder   *mCameraViewFinder;
+    QCameraInfo         mCameraInfo;
+    QPixmap             *mCameraData;
 
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;

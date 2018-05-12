@@ -64,6 +64,24 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         }
     });
 
+
+    mCamera = NULL;
+    mCameraViewFinder = new QCameraViewfinder(this);
+    ui->gridLayoutCamera->addWidget(mCameraViewFinder, 0, 1);
+
+    mCameraData = new QPixmap();
+
+    if(QCameraInfo::availableCameras().size()) {
+        QCameraViewfinderSettings* setting = new QCameraViewfinderSettings();
+        setting->setResolution(640, 480);
+
+        mCameraInfo = QCameraInfo::availableCameras().at(0);
+        mCamera = new QCamera(mCameraInfo);
+        mCamera->setViewfinder(mCameraViewFinder);
+        mCamera->setViewfinderSettings(*setting);
+        mCamera->start();
+    }
+
     // set user task timer
     _taskTimer = new QTimer(this);
     _taskTimer->start(TASK_TIME);
@@ -71,6 +89,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 }
 
 MainWindow::~MainWindow() {
+    if(mCamera != NULL) {
+        mCamera->stop();
+        delete mCamera;
+    }
     delete ui;
 }
 
@@ -135,6 +157,13 @@ void MainWindow::doUserTask() {
             printInverseKinematics();
             _interpolation.pathCount++;
         }
+    } else if(ui->tabWidget->currentIndex() == CAMERA) {
+        dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
+        _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
+        ui->widget->setNode(NULL);
+        ui->widget->setPath(NULL);
+        _interpolation.node.clear();
+        _interpolation.path.clear();
     }
 
     if(_serialPort->isOpen()) {

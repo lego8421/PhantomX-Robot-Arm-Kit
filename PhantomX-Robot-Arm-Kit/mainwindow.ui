@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>408</height>
+    <height>367</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -52,33 +52,29 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetMinimumSize</enum>
       </property>
-      <item row="1" column="1">
+      <item row="2" column="1">
        <widget class="QPushButton" name="buttonReset">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
         </property>
         <property name="text">
          <string>Reset</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Axis: X(Red), Y(Green), Z(Blue)</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="2" column="2">
        <widget class="QPushButton" name="pushButton_2">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -94,7 +90,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" colspan="2">
+      <item row="0" column="0" colspan="3">
        <widget class="QTabWidget" name="tabWidget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -130,32 +126,27 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="11" column="2">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>°</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="2">
+            <item row="9" column="2">
              <widget class="QLabel" name="label_23">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
             <item row="10" column="1">
-             <widget class="QLabel" name="labelForwardTheta">
-              <property name="text">
-               <string>0.00</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="1">
              <widget class="QLabel" name="labelForwardPsi">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>0.00</string>
               </property>
@@ -164,8 +155,27 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="0">
+            <item row="10" column="2">
+             <widget class="QLabel" name="label_24">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0">
              <widget class="QLabel" name="label_20">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>ψ</string>
               </property>
@@ -174,58 +184,30 @@
               </property>
              </widget>
             </item>
-            <item row="12" column="1">
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+            <item row="9" column="1">
+             <widget class="QLabel" name="labelForwardTheta">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="5" column="1">
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_11">
               <property name="text">
-               <string>x</string>
+               <string>0.00</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignCenter</set>
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="6" column="2">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>mm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="2">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>mm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
+            <item row="6" column="1">
              <widget class="QLabel" name="labelForwardY">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>295.00</string>
               </property>
@@ -234,51 +216,89 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="2">
+            <item row="8" column="2">
              <widget class="QLabel" name="label_18">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QSlider" name="horizontalSlider3">
+            <item row="5" column="2">
+             <widget class="QLabel" name="label_15">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-150</number>
-              </property>
-              <property name="maximum">
-               <number>150</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+              <property name="text">
+               <string>mm</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_12">
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>y</string>
+               <string>x</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLineEdit" name="lineEdit2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-90</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLineEdit" name="lineEdit3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -313,8 +333,157 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QLineEdit" name="lineEdit3">
+            <item row="7" column="2">
+             <widget class="QLabel" name="label_17">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>mm</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QSlider" name="horizontalSlider3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>-150</number>
+              </property>
+              <property name="maximum">
+               <number>150</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QLabel" name="label_16">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>mm</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>y</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLabel" name="labelForwardX">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>0.00</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[2]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLineEdit" name="lineEdit1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>90</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>q[0]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLineEdit" name="lineEdit0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -329,44 +498,6 @@
               </property>
               <property name="text">
                <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLineEdit" name="lineEdit2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>-90</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="labelForwardX">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>0.00</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -404,61 +535,6 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>q[2]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>q[0]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="2">
-             <widget class="QLabel" name="label_16">
-              <property name="text">
-               <string>mm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0">
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>Φ</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="1">
              <widget class="QSlider" name="horizontalSlider2">
               <property name="sizePolicy">
@@ -493,8 +569,62 @@
               </property>
              </widget>
             </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[4]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_14">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Φ</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="8" column="1">
+             <widget class="QLabel" name="labelForwardPhi">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>-90.00</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
              <widget class="QLabel" name="labelForwardZ">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>150.00</string>
               </property>
@@ -503,8 +633,56 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="lineEdit0">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[3]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>z</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[1]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QLineEdit" name="lineEdit4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -519,38 +697,6 @@
               </property>
               <property name="text">
                <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLineEdit" name="lineEdit1">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>90</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="1">
-             <widget class="QLabel" name="labelForwardPhi">
-              <property name="text">
-               <string>-90.00</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -591,8 +737,14 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="0">
+            <item row="9" column="0">
              <widget class="QLabel" name="label_19">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>θ</string>
               </property>
@@ -601,102 +753,27 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_5">
+            <item row="2" column="3">
+             <widget class="QLabel" name="label_27">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="text">
-               <string>q[4]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_4">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>q[3]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>z</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QLineEdit" name="lineEdit4">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>q[1]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
+               <string>°</string>
               </property>
              </widget>
             </item>
             <item row="0" column="3">
              <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>°</string>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLabel" name="label_26">
-              <property name="text">
-               <string>°</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QLabel" name="label_27">
               <property name="text">
                <string>°</string>
               </property>
@@ -704,6 +781,12 @@
             </item>
             <item row="3" column="3">
              <widget class="QLabel" name="label_28">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
@@ -711,6 +794,25 @@
             </item>
             <item row="4" column="3">
              <widget class="QLabel" name="label_29">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLabel" name="label_26">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
@@ -727,15 +829,14 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="4" column="3">
-             <widget class="QLabel" name="label_34">
-              <property name="text">
-               <string>°</string>
+            <item row="2" column="1">
+             <widget class="QSlider" name="horizontalSliderZ">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QSlider" name="horizontalSliderY">
               <property name="minimum">
                <number>-500</number>
               </property>
@@ -743,17 +844,30 @@
                <number>500</number>
               </property>
               <property name="value">
-               <number>295</number>
+               <number>150</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
+            <item row="5" column="3">
+             <widget class="QLabel" name="label_35">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>°</string>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_7">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -766,26 +880,19 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="3">
-             <widget class="QLabel" name="label_35">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>°</string>
+               <string>Φ</string>
               </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QSlider" name="horizontalSliderZ">
-              <property name="minimum">
-               <number>-500</number>
-              </property>
-              <property name="maximum">
-               <number>500</number>
-              </property>
-              <property name="value">
-               <number>150</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -811,24 +918,14 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_9">
+            <item row="4" column="1">
+             <widget class="QSlider" name="horizontalSliderTheta">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text">
-               <string>Φ</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QSlider" name="horizontalSliderTheta">
               <property name="minimum">
                <number>-180</number>
               </property>
@@ -840,30 +937,10 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="3">
-             <widget class="QLabel" name="label_30">
-              <property name="text">
-               <string>mm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item row="4" column="0">
              <widget class="QLabel" name="label_21">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -878,53 +955,27 @@
             </item>
             <item row="3" column="3">
              <widget class="QLabel" name="label_33">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QLineEdit" name="lineEditPhi">
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_30">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>-90</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QLabel" name="label_32">
               <property name="text">
                <string>mm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_6">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>x</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -950,8 +1001,65 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="0">
+            <item row="3" column="2">
+             <widget class="QLineEdit" name="lineEditPhi">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-90</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>x</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QLabel" name="label_32">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>mm</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
              <widget class="QLabel" name="label_37">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>q[1]</string>
               </property>
@@ -960,8 +1068,36 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="2" column="2">
+             <widget class="QLineEdit" name="lineEditZ">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>150</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
              <widget class="QLabel" name="label_36">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>q[0]</string>
               </property>
@@ -992,47 +1128,18 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QLineEdit" name="lineEditZ">
+            <item row="1" column="3">
+             <widget class="QLabel" name="label_31">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>150</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLabel" name="label_31">
               <property name="text">
                <string>mm</string>
               </property>
              </widget>
-            </item>
-            <item row="12" column="2">
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
             </item>
             <item row="4" column="2">
              <widget class="QLineEdit" name="lineEditTheta">
@@ -1056,10 +1163,16 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="0">
-             <widget class="QLabel" name="label_38">
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>q[2]</string>
+               <string>ψ</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -1068,6 +1181,12 @@
             </item>
             <item row="5" column="1">
              <widget class="QSlider" name="horizontalSliderPsi">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimum">
                <number>-360</number>
               </property>
@@ -1081,6 +1200,12 @@
             </item>
             <item row="0" column="1">
              <widget class="QSlider" name="horizontalSliderX">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimum">
                <number>-500</number>
               </property>
@@ -1095,16 +1220,48 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_22">
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_38">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="text">
-               <string>ψ</string>
+               <string>q[2]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_40">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[4]</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_39">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>q[3]</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -1113,6 +1270,12 @@
             </item>
             <item row="3" column="1">
              <widget class="QSlider" name="horizontalSliderPhi">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimum">
                <number>-360</number>
               </property>
@@ -1130,7 +1293,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_8">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1143,30 +1306,10 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="0">
-             <widget class="QLabel" name="label_39">
-              <property name="text">
-               <string>q[3]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="11" column="0">
-             <widget class="QLabel" name="label_40">
-              <property name="text">
-               <string>q[4]</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLabel" name="labelInverseQ0">
+            <item row="10" column="1">
+             <widget class="QLabel" name="labelInverseQ4">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1180,9 +1323,25 @@
              </widget>
             </item>
             <item row="8" column="1">
+             <widget class="QLabel" name="labelInverseQ2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>-90</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
              <widget class="QLabel" name="labelInverseQ1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1196,25 +1355,9 @@
              </widget>
             </item>
             <item row="9" column="1">
-             <widget class="QLabel" name="labelInverseQ2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>-90</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="1">
              <widget class="QLabel" name="labelInverseQ3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1227,10 +1370,10 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="1">
-             <widget class="QLabel" name="labelInverseQ4">
+            <item row="6" column="1">
+             <widget class="QLabel" name="labelInverseQ0">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1243,38 +1386,103 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="2">
-             <widget class="QLabel" name="label_46">
+            <item row="8" column="2">
+             <widget class="QLabel" name="label_48">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
-            <item row="8" column="2">
+            <item row="6" column="2">
+             <widget class="QLabel" name="label_46">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="2">
              <widget class="QLabel" name="label_47">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
             <item row="9" column="2">
-             <widget class="QLabel" name="label_48">
+             <widget class="QLabel" name="label_49">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
             <item row="10" column="2">
-             <widget class="QLabel" name="label_49">
+             <widget class="QLabel" name="label_50">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
               </property>
              </widget>
             </item>
-            <item row="11" column="2">
-             <widget class="QLabel" name="label_50">
+            <item row="4" column="3">
+             <widget class="QLabel" name="label_34">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSlider" name="horizontalSliderY">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimum">
+               <number>-500</number>
+              </property>
+              <property name="maximum">
+               <number>500</number>
+              </property>
+              <property name="value">
+               <number>295</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
@@ -1319,26 +1527,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ0">
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_42">
-              <property name="text">
-               <string>x(mm)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="lineEditPathX0">
               <property name="text">
@@ -1359,13 +1547,29 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="5">
-             <widget class="QLabel" name="label_51">
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_42">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>θ(°)</string>
+               <string>x(mm)</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ0">
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -1379,6 +1583,22 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_41">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>time(s)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLineEdit" name="lineEditPathTime0">
               <property name="text">
@@ -1389,20 +1609,32 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_41">
+            <item row="0" column="5">
+             <widget class="QLabel" name="label_51">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>time(s)</string>
+               <string>θ(°)</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="label_43">
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_44">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>y(mm)</string>
+               <string>z(mm)</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -1419,6 +1651,38 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="4">
+             <widget class="QLabel" name="label_45">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Φ(°)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_43">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>y(mm)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="6">
              <widget class="QLineEdit" name="lineEditPathPsi0">
               <property name="text">
@@ -1429,58 +1693,8 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
-             <widget class="QLabel" name="label_45">
-              <property name="text">
-               <string>Φ(°)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QLabel" name="label_44">
-              <property name="text">
-               <string>z(mm)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="6">
-             <widget class="QLabel" name="label_52">
-              <property name="text">
-               <string>ψ(°)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEditPathX1">
-              <property name="text">
-               <string>150</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="2">
              <widget class="QLineEdit" name="lineEditPathY1">
-              <property name="text">
-               <string>150</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="2">
-             <widget class="QLineEdit" name="lineEditPathY6">
               <property name="text">
                <string>150</string>
               </property>
@@ -1499,6 +1713,32 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEditPathX1">
+              <property name="text">
+               <string>150</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="6">
+             <widget class="QLabel" name="label_52">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>ψ(°)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="7" column="6">
              <widget class="QLineEdit" name="lineEditPathPsi6">
               <property name="text">
@@ -1509,18 +1749,8 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="6">
-             <widget class="QLineEdit" name="lineEditPathPsi2">
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QLineEdit" name="lineEditPathY3">
+            <item row="7" column="2">
+             <widget class="QLineEdit" name="lineEditPathY6">
               <property name="text">
                <string>150</string>
               </property>
@@ -1559,6 +1789,26 @@
               </property>
              </widget>
             </item>
+            <item row="3" column="6">
+             <widget class="QLineEdit" name="lineEditPathPsi2">
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QLineEdit" name="lineEditPathY3">
+              <property name="text">
+               <string>150</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="4" column="6">
              <widget class="QLineEdit" name="lineEditPathPsi3">
               <property name="text">
@@ -1569,20 +1819,20 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ4">
+            <item row="5" column="4">
+             <widget class="QLineEdit" name="lineEditPathPhi4">
               <property name="text">
-               <string>100</string>
+               <string>-180</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="5" column="4">
-             <widget class="QLineEdit" name="lineEditPathPhi4">
+            <item row="5" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ4">
               <property name="text">
-               <string>-180</string>
+               <string>100</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1603,6 +1853,16 @@
              <widget class="QLineEdit" name="lineEditPathTime4">
               <property name="text">
                <string>1.2</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="6">
+             <widget class="QLineEdit" name="lineEditPathPsi4">
+              <property name="text">
+               <string>0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1659,53 +1919,20 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="6">
-             <widget class="QLineEdit" name="lineEditPathPsi4">
+            <item row="6" column="4">
+             <widget class="QLineEdit" name="lineEditPathPhi5">
               <property name="text">
-               <string>0</string>
+               <string>-180</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
-            </item>
-            <item row="9" column="6">
-             <spacer name="verticalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
             </item>
             <item row="6" column="5">
              <widget class="QLineEdit" name="lineEditPathTheta5">
               <property name="text">
                <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ5">
-              <property name="text">
-               <string>100</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="4">
-             <widget class="QLineEdit" name="lineEditPathPhi5">
-              <property name="text">
-               <string>-180</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1722,10 +1949,10 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="5">
-             <widget class="QLineEdit" name="lineEditPathTheta6">
+            <item row="6" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ5">
               <property name="text">
-               <string>0</string>
+               <string>100</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1752,10 +1979,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ1">
+            <item row="3" column="0">
+             <widget class="QLineEdit" name="lineEditPathTime2">
               <property name="text">
-               <string>0</string>
+               <string>0.6</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1772,18 +1999,28 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLineEdit" name="lineEditPathTime2">
+            <item row="2" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ1">
               <property name="text">
-               <string>0.6</string>
+               <string>0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEditPathX2">
+            <item row="7" column="5">
+             <widget class="QLineEdit" name="lineEditPathTheta6">
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ2">
               <property name="text">
                <string>0</string>
               </property>
@@ -1812,6 +2049,16 @@
               </property>
              </widget>
             </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="lineEditPathX2">
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="5">
              <widget class="QLineEdit" name="lineEditPathTheta1">
               <property name="text">
@@ -1822,10 +2069,10 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ2">
+            <item row="4" column="0">
+             <widget class="QLineEdit" name="lineEditPathTime3">
               <property name="text">
-               <string>0</string>
+               <string>0.9</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1842,33 +2089,6 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="3">
-             <widget class="QLineEdit" name="lineEditPathZ3">
-              <property name="text">
-               <string>0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="4" colspan="3">
-             <widget class="QPushButton" name="buttonPathApply">
-              <property name="text">
-               <string>apply</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLineEdit" name="lineEditPathTime3">
-              <property name="text">
-               <string>0.9</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="8" column="0">
              <widget class="QLineEdit" name="lineEditPathTime7">
               <property name="text">
@@ -1879,20 +2099,27 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
-             <widget class="QLineEdit" name="lineEditPathX7">
+            <item row="4" column="3">
+             <widget class="QLineEdit" name="lineEditPathZ3">
               <property name="text">
-               <string>-100</string>
+               <string>0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="8" column="2">
-             <widget class="QLineEdit" name="lineEditPathY7">
+            <item row="9" column="4" colspan="3">
+             <widget class="QPushButton" name="buttonPathApply">
               <property name="text">
-               <string>100</string>
+               <string>apply</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="lineEditPathX7">
+              <property name="text">
+               <string>-100</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1929,6 +2156,16 @@
               </property>
              </widget>
             </item>
+            <item row="8" column="2">
+             <widget class="QLineEdit" name="lineEditPathY7">
+              <property name="text">
+               <string>100</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="8" column="6">
              <widget class="QLineEdit" name="lineEditPathPsi7">
               <property name="text">
@@ -1943,6 +2180,117 @@
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="tabCamera">
+         <attribute name="title">
+          <string>Camera</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QGridLayout" name="gridLayoutCamera">
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="text">
+               <string>V</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSlider" name="horizontalSliderV">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>50</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="text">
+               <string>S</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QSlider" name="horizontalSliderS">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>50</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QLabel" name="label_58">
+              <property name="text">
+               <string>50</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_56">
+              <property name="text">
+               <string>180</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QSlider" name="horizontalSliderH">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="value">
+               <number>180</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_53">
+              <property name="text">
+               <string>H</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLabel" name="label_57">
+              <property name="text">
+               <string>50</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Axis: X(Red), Y(Green), Z(Blue)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
      </layout>
@@ -1971,12 +2319,60 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>631</x>
-     <y>292</y>
+     <x>765</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
      <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderH</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>label_56</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>602</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>706</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderS</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>label_57</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>624</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>275</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderV</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>label_58</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>573</x>
+     <y>300</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>711</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>
