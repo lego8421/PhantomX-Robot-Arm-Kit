@@ -181,16 +181,12 @@ dVector MainWindow::getInverseSliderValue() {
 }
 
 void MainWindow::forwardValueChanged(int index, int val) {
-
     _lineEditForward[index]->setText(QString::number(val));
-
     _q.target[index] = val * _DEG2RAD;
 }
 
 void MainWindow::inverseValueChanged(int index, int val) {
-
     _lineEditInverse[index]->setText(QString::number(val));
-
     if(index < 3) {
         _target[index] = val / 1000.0;
     } else {
@@ -201,21 +197,19 @@ void MainWindow::inverseValueChanged(int index, int val) {
 void MainWindow::on_buttonReset_clicked() {
 
     for(int i=0; i<5;i++) {
-        _sliderForward[i]->setValue(_q.init[i] * _RAD2DEG);
+        _lineEditForward[i]->setText(QString::number(_q.init[i] * _RAD2DEG));
     }
-
     ui->widget->setJointAngle(_q.init);
-    ui->widget->updateGL();
 
     dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
-
     for(int i=0; i<6; i++) {
         if(i < 3) {
-            _sliderInverse[i]->setValue(value[i] * 1000.0);
+            _lineEditInverse[i]->setText(QString::number(value[i] * 1000.0));
         } else {
-            _sliderInverse[i]->setValue(value[i] * _RAD2DEG);
+            _lineEditInverse[i]->setText(QString::number(value[i] * _RAD2DEG));
         }
     }
+    ui->widget->updateGL();
 }
 
 void MainWindow::on_pushButtonPathApply_clicked() {
