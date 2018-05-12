@@ -118,7 +118,7 @@
          <enum>Qt::LeftToRight</enum>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideRight</enum>
@@ -1853,7 +1853,7 @@
              </widget>
             </item>
             <item row="10" column="4" colspan="3">
-             <widget class="QPushButton" name="pushButtonPathApply">
+             <widget class="QPushButton" name="buttonPathApply">
               <property name="text">
                <string>apply</string>
               </property>

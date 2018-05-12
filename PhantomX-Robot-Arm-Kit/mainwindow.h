@@ -35,6 +35,13 @@ class MainWindow : public QMainWindow
         dVector current;
     }Joint;
 
+    typedef struct {
+        std::vector<std::valarray<double>> node;
+        std::vector<std::valarray<double>> path;
+        std::vector<std::valarray<double>> init;
+        uint32_t pathCount;
+    }Interpolation;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -61,9 +68,7 @@ private:
     Joint _q;
     dVector _target;
 
-    std::vector<std::valarray<double>> _node;
-    std::vector<std::valarray<double>> _path;
-    uint32_t _pathCount;
+    Interpolation _interpolation;
 
     Dynamixel *_dynamixel;
 
@@ -82,7 +87,7 @@ private slots:
     void on_buttonReset_clicked();
 
     void doUserTask();
-    void on_pushButtonPathApply_clicked();
+    void on_buttonPathApply_clicked();
 };
 
 #endif // MAINWINDOW_H

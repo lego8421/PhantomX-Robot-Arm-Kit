@@ -89,6 +89,10 @@ void MainWindow::doUserTask() {
         }
 
         printForwardKinematics();
+        ui->widget->setNode(NULL);
+        ui->widget->setPath(NULL);
+        _interpolation.node.clear();
+        _interpolation.path.clear();
     } else if(ui->tabWidget->currentIndex() == INVERSE) {
         _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
         _q.target += _kinematics->SolveDLS(0.01, 0.03, 0.01);
@@ -98,14 +102,18 @@ void MainWindow::doUserTask() {
         }
 
         printInverseKinematics();
+        ui->widget->setNode(NULL);
+        ui->widget->setPath(NULL);
+        _interpolation.node.clear();
+        _interpolation.path.clear();
     } else if(ui->tabWidget->currentIndex() == PATH) {
-        if(_path.size()) {
-            if(_pathCount >= _path.size()) {
-                _pathCount = 0;
+        if(_interpolation.path.size()) {
+            if(_interpolation.pathCount >= _interpolation.path.size()) {
+                _interpolation.pathCount = 0;
             }
 
             for(int i=0; i<6; i++) {
-                _target[i] = _path[_pathCount][i+1];
+                _target[i] = _interpolation.path[_interpolation.pathCount][i+1];
             }
 
             _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
@@ -115,8 +123,17 @@ void MainWindow::doUserTask() {
                 _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
             }
 
+            for(int i=0; i<6; i++) {
+                if(i < 3) {
+                    _sliderInverse[i]->setValue(_target[i] * 1000.0);
+                } else {
+                    _sliderInverse[i]->setValue(_target[i] * _RAD2DEG);
+                }
+            }
+
+            printForwardKinematics();
             printInverseKinematics();
-            _pathCount++;
+            _interpolation.pathCount++;
         }
     }
 
@@ -210,14 +227,28 @@ void MainWindow::on_buttonReset_clicked() {
         }
     }
     ui->widget->updateGL();
+
+    _interpolation.pathCount = 0;
+    _interpolation.node.clear();
+    _interpolation.path.clear();
+
+    for(int i=0; i<8; i++) {
+        _lineEditPath[i][0]->setText(QString::number(_interpolation.init[i][0]));
+        _lineEditPath[i][1]->setText(QString::number(_interpolation.init[i][1] * 1000.0));
+        _lineEditPath[i][2]->setText(QString::number(_interpolation.init[i][2] * 1000.0));
+        _lineEditPath[i][3]->setText(QString::number(_interpolation.init[i][3] * 1000.0));
+        _lineEditPath[i][4]->setText(QString::number(_interpolation.init[i][4] * _RAD2DEG));
+        _lineEditPath[i][5]->setText(QString::number(_interpolation.init[i][5] * _RAD2DEG));
+        _lineEditPath[i][6]->setText(QString::number(_interpolation.init[i][6] * _RAD2DEG));
+    }
 }
 
-void MainWindow::on_pushButtonPathApply_clicked() {
+void MainWindow::on_buttonPathApply_clicked() {
     bool ok = false;
 
-    _pathCount = 0;
-    _node.clear();
-    _path.clear();
+    _interpolation.pathCount = 0;
+    _interpolation.node.clear();
+    _interpolation.path.clear();
 
     for(int i=0; i<8; i++) {
         double a[7] = {0.0, };
@@ -228,13 +259,13 @@ void MainWindow::on_pushButtonPathApply_clicked() {
         a[4] = _lineEditPath[i][4]->text().toDouble(&ok) * _DEG2RAD;
         a[5] = _lineEditPath[i][5]->text().toDouble(&ok) * _DEG2RAD;
         a[6] = _lineEditPath[i][6]->text().toDouble(&ok) * _DEG2RAD;
-        _node.push_back (std::valarray<double>(&a[0], 7));
+        _interpolation.node.push_back (std::valarray<double>(&a[0], 7));
     }
 
-    _path = linearInterpolation(_node, (double)TASK_TIME/1000.0);
+    _interpolation.path = linearInterpolation(_interpolation.node, (double)TASK_TIME/1000.0);
 
-    ui->widget->setNode(&_node);
-    ui->widget->setPath(&_path);
+    ui->widget->setNode(&_interpolation.node);
+    ui->widget->setPath(&_interpolation.path);
 }
 
 
@@ -355,10 +386,22 @@ void MainWindow::setUiObject() {
         }
     }
 
-    _pathCount = 0;
-    _node.clear();
-    _path.clear();
+    _interpolation.pathCount = 0;
+    _interpolation.node.clear();
+    _interpolation.path.clear();
 
+    for(int i=0; i<8; i++) {
+        double a[7] = {0.0, };
+        bool ok = false;
+        a[0] = _lineEditPath[i][0]->text().toDouble(&ok);
+        a[1] = _lineEditPath[i][1]->text().toDouble(&ok) / 1000.0;
+        a[2] = _lineEditPath[i][2]->text().toDouble(&ok) / 1000.0;
+        a[3] = _lineEditPath[i][3]->text().toDouble(&ok) / 1000.0;
+        a[4] = _lineEditPath[i][4]->text().toDouble(&ok) * _DEG2RAD;
+        a[5] = _lineEditPath[i][5]->text().toDouble(&ok) * _DEG2RAD;
+        a[6] = _lineEditPath[i][6]->text().toDouble(&ok) * _DEG2RAD;
+        _interpolation.init.push_back (std::valarray<double>(&a[0], 7));
+    }
 }
 
 void MainWindow::printForwardKinematics() {
