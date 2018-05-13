@@ -14,6 +14,7 @@
 #include <QCameraInfo>
 #include <QCameraViewfinder>
 #include <QCameraImageCapture>
+#include <QCameraImageProcessing>
 #include <QScreen>
 
 #include "kinematics/posOriInverse.h"

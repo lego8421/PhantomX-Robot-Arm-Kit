@@ -79,6 +79,12 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         mCamera = new QCamera(mCameraInfo);
         mCamera->setViewfinder(mCameraViewFinder);
         mCamera->setViewfinderSettings(*setting);
+
+        if (mCamera->imageProcessing()->isAvailable()) {
+            if(mCamera->imageProcessing()->isWhiteBalanceModeSupported(QCameraImageProcessing::WhiteBalanceManual)) {
+                mCamera->imageProcessing()->setWhiteBalanceMode(QCameraImageProcessing::WhiteBalanceManual);
+            }
+        }
         mCamera->start();
     }
 
