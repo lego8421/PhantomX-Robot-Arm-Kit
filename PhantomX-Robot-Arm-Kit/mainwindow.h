@@ -10,17 +10,7 @@
 #include <QLabel>
 #include <QQueue>
 
-#include <QCamera>
-#include <QCameraInfo>
-#include <QCameraViewfinder>
-#include <QCameraImageCapture>
-#include <QCameraImageProcessing>
-#include <QScreen>
-
-#include <opencv2/core/core.hpp>
-#include <opencv/highgui.h>
-#include <opencv2/opencv.hpp>
-
+#include "camera/cameraviewer.h"
 #include "kinematics/posOriInverse.h"
 #include "interpolation.h"
 #include "dynamixel/dynamixel.h"
@@ -70,16 +60,13 @@ private:
 
     QLineEdit ***_lineEditPath;
 
-    QCamera             *mCamera;
-    QCameraViewfinder   *mCameraViewFinder;
-    QCameraInfo         mCameraInfo;
-    QPixmap             *mCameraData;
-
     Serialport *_serialPort;
     QQueue<QByteArray> *_messageQueue;
     QTimer *_taskTimer;
 
     const int TASK_TIME = 20;   // 20ms
+
+    CameraViewer *_cameraView;
 
     CPosOriInverse *_kinematics;
     Joint _q;

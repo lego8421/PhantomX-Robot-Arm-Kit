@@ -34,7 +34,8 @@ SOURCES += \
     opengl/oglObjects.cpp \
     serialport/serialport.cpp \
     dynamixel/dynamixel.cpp \
-    interpolation.cpp
+    interpolation.cpp \
+    camera/cameraviewer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,7 +51,8 @@ HEADERS += \
     opengl/oglObjects.h \
     serialport/serialport.h \
     dynamixel/dynamixel.h \
-    interpolation.h
+    interpolation.h \
+    camera/cameraviewer.h
 
 FORMS += \
         mainwindow.ui

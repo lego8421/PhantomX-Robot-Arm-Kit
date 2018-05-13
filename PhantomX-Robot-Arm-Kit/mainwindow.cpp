@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 
     setUiObject();
 
+    _cameraView = new CameraViewer(this, ui->gridLayoutCamera);
+
     // set link, joint
     _kinematics = new CPosOriInverse(POSITION_ORIENTATION);
     _kinematics->AttachJoint(REVOLUTE_JOINT, 2, 0.0, 0.0, 0.000, -90 * _DEG2RAD, 0 * _DEG2RAD, 0 * _DEG2RAD, 0.01, -150.0 * _DEG2RAD, 150.0 * _DEG2RAD, 0 * _DEG2RAD, 1.0);
@@ -64,30 +66,6 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
         }
     });
 
-
-    mCamera = NULL;
-    mCameraViewFinder = new QCameraViewfinder(this);
-    ui->gridLayoutCamera->addWidget(mCameraViewFinder, 0, 1);
-
-    mCameraData = new QPixmap();
-
-    if(QCameraInfo::availableCameras().size()) {
-        QCameraViewfinderSettings* setting = new QCameraViewfinderSettings();
-        setting->setResolution(640, 480);
-
-        mCameraInfo = QCameraInfo::availableCameras().at(0);
-        mCamera = new QCamera(mCameraInfo);
-        mCamera->setViewfinder(mCameraViewFinder);
-        mCamera->setViewfinderSettings(*setting);
-
-        if (mCamera->imageProcessing()->isAvailable()) {
-            if(mCamera->imageProcessing()->isWhiteBalanceModeSupported(QCameraImageProcessing::WhiteBalanceManual)) {
-                mCamera->imageProcessing()->setWhiteBalanceMode(QCameraImageProcessing::WhiteBalanceManual);
-            }
-        }
-        mCamera->start();
-    }
-
     // set user task timer
     _taskTimer = new QTimer(this);
     _taskTimer->start(TASK_TIME);
@@ -95,10 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
 }
 
 MainWindow::~MainWindow() {
-    if(mCamera != NULL) {
-        mCamera->stop();
-        delete mCamera;
-    }
     delete ui;
 }
 
