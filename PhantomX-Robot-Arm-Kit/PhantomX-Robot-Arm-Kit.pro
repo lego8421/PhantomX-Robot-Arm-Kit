@@ -58,6 +58,8 @@ FORMS += \
 win32 {
     LIBS += -lOpengl32 \
             -lglu32
+
+    INCLUDEPATH += opencv/MinGW/include
 }
 
 RESOURCES += \

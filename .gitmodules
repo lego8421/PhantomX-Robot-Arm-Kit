@@ -1,0 +1,3 @@
+[submodule "PhantomX-Robot-Arm-Kit/opencv"]
+	path = PhantomX-Robot-Arm-Kit/opencv
+	url = git@github.com:lego8421/openCV.git
