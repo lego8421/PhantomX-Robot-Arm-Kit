@@ -15,7 +15,7 @@ GLWidget::GLWidget(QWidget *parent) :
 
 void GLWidget::initializeGL() {
 
-    glClearColor(240.0f,240.0f,240.0f, 1.0);
+    glClearColor(240.0f, 240.0f, 240.0f, 1.0);
     glClearDepth(1.0);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -82,20 +82,20 @@ void GLWidget::resizeGL(int width, int height) {
     _glnWidth = width;
     _glnHeight = height;
 
-    gluPerspective(_fovAngle, (double)_glnWidth/_glnHeight, 0.1, 1000000.0);
+    gluPerspective(_fovAngle, (double)_glnWidth / _glnHeight, 0.1, 1000000.0);
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 
     if(event->buttons() == Qt::LeftButton) {
-        _angleHor+=(event->localPos().x()-_mouseDownPoint.x())/3.6;
-        _angleVer+=(event->localPos().y()-_mouseDownPoint.y())/3.6;
+        _angleHor += (event->x() - _mouseDownPoint.x()) / 3.6;
+        _angleVer += (event->y() - _mouseDownPoint.y()) / 3.6;
     } else if(event->buttons() == Qt::RightButton) {
-        _centerPos.y -= (event->localPos().x()-_mouseDownPoint.x())/100.0;
-        _centerPos.z += (event->localPos().y()-_mouseDownPoint.y())/100.0;
+        _centerPos.y -= (event->x() - _mouseDownPoint.x()) / 100.0;
+        _centerPos.z += (event->y() - _mouseDownPoint.y()) / 100.0;
     }
 
-    _mouseDownPoint=event->localPos();
+    _mouseDownPoint = event->posF();
 
     updateGL();
 }
@@ -103,7 +103,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 void GLWidget::mousePressEvent(QMouseEvent *event) {
 
     if(event->buttons() != Qt::MiddleButton) {
-        _mouseDownPoint = event->localPos();
+        _mouseDownPoint = event->posF();
     } else {
         _eyePos = CPoint3d(1.1, -0.03, 0.4);
         _centerPos = CPoint3d(0, 0, 0.14);
@@ -149,28 +149,39 @@ void GLWidget::setJointAngle(dVector &q) {
 
 void GLWidget::setViewport() {
     // 보는 시각 설정
-    gluLookAt( _eyePos.x, _eyePos.y, _eyePos.z, _centerPos.x, _centerPos.y, _centerPos.z, 0,0,1 );
+    gluLookAt( _eyePos.x, _eyePos.y, _eyePos.z, _centerPos.x, _centerPos.y, _centerPos.z, 0, 0, 1 );
 
     // 좌표계 회전
-    glRotated( _angleVer, 0,1,0 );
-    glRotated( _angleHor, 0,0,1 );
+    glRotated( _angleVer, 0, 1, 0 );
+    glRotated( _angleHor, 0, 0, 1 );
 }
 
 void GLWidget::transformAxis(dMatrix A) {
     double m[16];
 
-    m[0] = A(0,0);  m[4] = A(0,1);  m[8] = A(0,2);  m[12] = A(0,3);
-    m[1] = A(1,0);  m[5] = A(1,1);  m[9] = A(1,2);  m[13] = A(1,3);
-    m[2] = A(2,0);  m[6] = A(2,1);  m[10]= A(2,2);  m[14] = A(2,3);
-    m[3] = 0.0;     m[7] = 0.0;     m[11]= 0.0;     m[15] = 1.0;
+    m[0] = A(0, 0);
+    m[4] = A(0, 1);
+    m[8] = A(0, 2);
+    m[12] = A(0, 3);
+    m[1] = A(1, 0);
+    m[5] = A(1, 1);
+    m[9] = A(1, 2);
+    m[13] = A(1, 3);
+    m[2] = A(2, 0);
+    m[6] = A(2, 1);
+    m[10] = A(2, 2);
+    m[14] = A(2, 3);
+    m[3] = 0.0;
+    m[7] = 0.0;
+    m[11] = 0.0;
+    m[15] = 1.0;
 
     glMultMatrixd(m);
 }
 
-void GLWidget::renderPath(std::vector<std::valarray<double>> *path)
-{
+void GLWidget::renderPath(std::vector<std::valarray<double>> *path) {
     std::vector<CPoint3d> line;
-    for (unsigned int i=0; i<path->size(); ++i) {
+    for (unsigned int i = 0; i < path->size(); ++i) {
         std::valarray<double> &p = (*path)[i];
         line.push_back (CPoint3d(p[1], p[2], p[3]));
     }
@@ -183,9 +194,9 @@ void GLWidget::renderTarget() {
     glPushMatrix();
 
     glTranslated(desired[0], desired[1], desired[2]);
-    glRotated (_RAD2DEG*desired[5], 0, 0, 1);
-    glRotated (_RAD2DEG*desired[4], 0, 1, 0);
-    glRotated (_RAD2DEG*desired[3], 1, 0, 0);
+    glRotated (_RAD2DEG * desired[5], 0, 0, 1);
+    glRotated (_RAD2DEG * desired[4], 0, 1, 0);
+    glRotated (_RAD2DEG * desired[3], 1, 0, 0);
 
     glColor3d(1.0, 0., 0.);
     oglBox (0.06, 0.06, 0.06);
@@ -198,13 +209,13 @@ void GLWidget::renderTarget() {
 void GLWidget::drawRevLink (double x, double y, double z, double radius) {
     glPushMatrix();
 
-    double rz = _RAD2DEG*atan2(y, x);
-    double ry = 90. - _RAD2DEG*atan2(z, sqrt(x*x + y*y));
-    double height = sqrt (x*x + y*y + z*z);
+    double rz = _RAD2DEG * atan2(y, x);
+    double ry = 90. - _RAD2DEG * atan2(z, sqrt(x * x + y * y));
+    double height = sqrt (x * x + y * y + z * z);
 
     glRotated( rz, 0, 0, 1);
     glRotated( ry, 0, 1, 0);
-    glTranslated (0, 0, height/2.);
+    glTranslated (0, 0, height / 2.);
 
     oglCylinder (height, radius);
 
@@ -219,11 +230,11 @@ void GLWidget::drawFixedJoint(JointInfo *joint) {
 void GLWidget::drawRevoluteJoint(JointInfo *joint) {
     glPushMatrix();
 
-    if      (joint->axis == 0) glRotated( 90., 0,1,0 );
-    else if (joint->axis == 1) glRotated(-90., 1,0,0 );
+    if      (joint->axis == 0) glRotated( 90., 0, 1, 0 );
+    else if (joint->axis == 1) glRotated(-90., 1, 0, 0 );
 
     glColor3d(0.5, 0.5, 0.5);
-    oglCylinder (joint->radius*2.5, joint->radius*1.3);
+    oglCylinder (joint->radius * 2.5, joint->radius * 1.3);
 
     glPopMatrix();
 
@@ -240,15 +251,15 @@ void GLWidget::drawRevoluteJoint(JointInfo *joint) {
 void GLWidget::drawPrismaticJoint(JointInfo *joint) {
     glPushMatrix();
 
-    if      (joint->axis == 0) glRotated( 90., 0,1,0 );
-    else if (joint->axis == 1) glRotated(-90., 1,0,0 );
+    if      (joint->axis == 0) glRotated( 90., 0, 1, 0 );
+    else if (joint->axis == 1) glRotated(-90., 1, 0, 0 );
 
     glColor3d(0.5, 0.5, 0.5);
-    oglBox (joint->radius*2.5, joint->radius*2.5, joint->radius*2.5);
-    glTranslated (0, 0, joint->q/2.);
+    oglBox (joint->radius * 2.5, joint->radius * 2.5, joint->radius * 2.5);
+    glTranslated (0, 0, joint->q / 2.);
 
     glColor3d(0.8, 0.8, 0.8);
-    oglBox (joint->radius*1.5, joint->radius*1.5, joint->q);
+    oglBox (joint->radius * 1.5, joint->radius * 1.5, joint->q);
 
     glPopMatrix();
 
@@ -272,11 +283,9 @@ void GLWidget::renderJoint() {
 
         if (joint->type == FIXED_JOINT) {
             drawFixedJoint (joint);
-        }
-        else if (joint->type == REVOLUTE_JOINT) {
+        } else if (joint->type == REVOLUTE_JOINT) {
             drawRevoluteJoint (joint);
-        }
-        else if (joint->type == PRISMATIC_JOINT) {
+        } else if (joint->type == PRISMATIC_JOINT) {
             drawPrismaticJoint (joint);
         }
 

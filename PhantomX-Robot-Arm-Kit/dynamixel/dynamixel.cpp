@@ -1,6 +1,7 @@
 #include "dynamixel.h"
 
 #include <QDebug>
+#include <string>
 
 Dynamixel::Dynamixel(Dynamixel::type type) {
 
@@ -19,13 +20,13 @@ QByteArray Dynamixel::generateJointAnglePacket(dVector q) {
 
     QByteArray buffer;
     uint16_t parameter[5] = {0,};
-    uint8_t parameterLength = 5 * (5+2) + 4;
+    uint8_t parameterLength = 5 * (5 + 2) + 4;
     uint8_t checkSum = 0;
 
     q[1] -= ((Dynamixel::offset::ANGLE - Dynamixel::offset::LINK) * _DEG2RAD);
     q[2] += ((Dynamixel::offset::ANGLE - Dynamixel::offset::LINK) * _DEG2RAD);
 
-    for(int i=0;i<5;i++) {
+    for(int i = 0; i < 5; i++) {
         parameter[i] = convertAngleToDynamixel(q[i] * _RAD2DEG);
     }
 
@@ -96,8 +97,7 @@ QByteArray Dynamixel::generateJointAnglePacket(dVector q) {
     return buffer;
 }
 
-QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id)
-{
+QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id) {
     QByteArray buffer;
     uint8_t checkSum = 0;
 
@@ -126,7 +126,7 @@ QByteArray Dynamixel::generateGetJointAngleByIdPacket(uint8_t id)
 QByteArray Dynamixel::generateTorqueOffPacket() {
 
     QByteArray buffer;
-    uint8_t parameterLength = 2 * (5+2) + 4;
+    uint8_t parameterLength = 2 * (5 + 2) + 4;
     uint8_t checkSum = 0;
 
     // header
@@ -142,9 +142,9 @@ QByteArray Dynamixel::generateTorqueOffPacket() {
 
 
     // yaw
-    for(uint8_t i=0; i<7; i++) {
-        buffer[i*2 + 7] = i+1;
-        buffer[i*2 + 8] = 0;
+    for(uint8_t i = 0; i < 7; i++) {
+        buffer[i * 2 + 7] = i + 1;
+        buffer[i * 2 + 8] = 0;
     }
 
     for(int i = 2; i < 21; i++) {
@@ -156,12 +156,12 @@ QByteArray Dynamixel::generateTorqueOffPacket() {
 }
 
 void Dynamixel::addMessageBuffer(QByteArray buffer) {
-    _messageBuffer += buffer.toStdString();
+    _messageBuffer += QString::fromAscii(buffer.data()).toStdString();
 }
 
 bool Dynamixel::getReceivedPacket(QByteArray *received) {
 
-    std::size_t index = _messageBuffer.find(0xFF,0);
+    std::size_t index = _messageBuffer.find(0xFF, 0);
     uint8_t paramLength = 0;
     uint8_t packetLength = 0;
     int8_t checksum = 0;
@@ -182,24 +182,24 @@ bool Dynamixel::getReceivedPacket(QByteArray *received) {
         }
 
         paramLength = _messageBuffer[3];
-        packetLength = paramLength+4;
+        packetLength = paramLength + 4;
 
         // copy data
         received->clear();
-        for(int i=0; i<packetLength; i++) {
+        for(int i = 0; i < packetLength; i++) {
             received->push_back(_messageBuffer[i]);
         }
 
         // slice data
-        _messageBuffer = _messageBuffer.substr(packetLength-1);
+        _messageBuffer = _messageBuffer.substr(packetLength - 1);
 
         // checksum
-        for(int i=2; i<packetLength-1; i++) {
+        for(int i = 2; i < packetLength - 1; i++) {
             checksum += received->at(i);
         }
         checksum = ~checksum;
 
-        if(checksum != received->at(packetLength-1)) {
+        if(checksum != received->at(packetLength - 1)) {
             return false;
         }
     } catch(std::exception e) {
@@ -215,20 +215,20 @@ double Dynamixel::convertDynamixelToAngle(uint16_t value) {
         value = _info.valueMax;
     }
 
-    return (((double)value / _info.valueMax) * _info.angleMax) - (_info.angleMax/2.0);
+    return (((double)value / _info.valueMax) * _info.angleMax) - (_info.angleMax / 2.0);
 }
 
 uint16_t Dynamixel::convertAngleToDynamixel(double angle) {
 
     uint16_t ret = 0;
 
-    if(angle > _info.angleMax/2.0) {
-        angle = _info.angleMax/2.0;
-    } else if(angle < -_info.angleMax/2.0) {
-        angle = -_info.angleMax/2.0;
+    if(angle > _info.angleMax / 2.0) {
+        angle = _info.angleMax / 2.0;
+    } else if(angle < -_info.angleMax / 2.0) {
+        angle = -_info.angleMax / 2.0;
     }
 
-    angle += (_info.angleMax/2.0);
+    angle += (_info.angleMax / 2.0);
     ret = (angle / _info.angleMax) * _info.valueMax;
 
     if(ret == _info.valueMax) {
