@@ -156,7 +156,7 @@ QByteArray Dynamixel::generateTorqueOffPacket() {
 }
 
 void Dynamixel::addMessageBuffer(QByteArray buffer) {
-    _messageBuffer += QString::fromAscii(buffer.data()).toStdString();
+    _messageBuffer += QString::fromLocal8Bit(buffer).toStdString();
 }
 
 bool Dynamixel::getReceivedPacket(QByteArray *received) {

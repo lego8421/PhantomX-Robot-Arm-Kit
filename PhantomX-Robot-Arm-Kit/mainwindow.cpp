@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QValidator>
+
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
@@ -49,20 +51,20 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _messageQueue = new QQueue<QByteArray>();
 
     // set serial signal connect
-//    connect(_serialPort, &Serialport::connected, [=](QString portName) {
-//        ui->statusBar->showMessage("connected: " + portName,1000);
-//        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
-//    });
-//    connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
-//        ui->statusBar->showMessage("disconnected: " + portName,1000);
-//    });
-//    connect(_serialPort, &Serialport::readyRead, [=]() {
-//        QByteArray packet;
-//        _dynamixel->addMessageBuffer(_serialPort->readAll());
-//        while(_dynamixel->getReceivedPacket(&packet)) {
-//            _messageQueue->enqueue(packet);
-//        }
-//    });
+    connect(_serialPort, &Serialport::connected, [=](QString portName) {
+        ui->statusBar->showMessage("connected: " + portName,1000);
+        _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
+    });
+    connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
+        ui->statusBar->showMessage("disconnected: " + portName,1000);
+    });
+    connect(_serialPort, &Serialport::readyRead, [=]() {
+        QByteArray packet;
+        _dynamixel->addMessageBuffer(_serialPort->readAll());
+        while(_dynamixel->getReceivedPacket(&packet)) {
+            _messageQueue->enqueue(packet);
+        }
+    });
 
     // set user task timer
     _taskTimer = new QTimer(this);
@@ -301,13 +303,13 @@ void MainWindow::setUiObject() {
         _lineEditForward[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
-//        connect(_lineEditForward[i], &QLineEdit::textChanged, [=](QString text) {
-//            bool ok = false;
-//            _sliderForward[i]->setValue(text.toInt(&ok));
-//        });
+        connect(_lineEditForward[i], &QLineEdit::textChanged, [=](QString text) {
+            bool ok = false;
+            _sliderForward[i]->setValue(text.toInt(&ok));
+        });
 
-//        // set slider signal
-//        connect(_sliderForward[i], &QSlider::valueChanged, [=](int value) { forwardValueChanged(i,value); });
+        // set slider signal
+        connect(_sliderForward[i], &QSlider::valueChanged, [=](int value) { forwardValueChanged(i,value); });
     }
 
     // set inverse
@@ -335,18 +337,17 @@ void MainWindow::setUiObject() {
     _labelInverse[4] = ui->labelInverseQ4;
 
     for(int i=0; i<6; i++) {
-
         // set range, only number
         _lineEditInverse[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
-//        connect(_lineEditInverse[i], &QLineEdit::textChanged, [=](QString text) {
-//            bool ok = false;
-//            _sliderInverse[i]->setValue(text.toInt(&ok));
-//        });
+        connect(_lineEditInverse[i], &QLineEdit::textChanged, [=](QString text) {
+            bool ok = false;
+            _sliderInverse[i]->setValue(text.toInt(&ok));
+        });
 
-//        // set slider signal
-//        connect(_sliderInverse[i], &QSlider::valueChanged, [=](int value) { inverseValueChanged(i,value); });
+        // set slider signal
+        connect(_sliderInverse[i], &QSlider::valueChanged, [=](int value) { inverseValueChanged(i,value); });
     }
 
     // set path
