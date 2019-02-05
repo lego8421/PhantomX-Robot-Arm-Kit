@@ -9,8 +9,8 @@ GLWidget::GLWidget(QWidget *parent) :
     _angleVer = 10.0;
     _fovAngle = 45.0;
 
-    _node = NULL;
-    _path = NULL;
+    _node = nullptr;
+    _path = nullptr;
 }
 
 void GLWidget::initializeGL() {
@@ -95,7 +95,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
         _centerPos.z += (event->y() - _mouseDownPoint.y()) / 100.0;
     }
 
-    _mouseDownPoint = event->posF();
+    _mouseDownPoint = event->pos();
 
     updateGL();
 }
@@ -103,7 +103,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 void GLWidget::mousePressEvent(QMouseEvent *event) {
 
     if(event->buttons() != Qt::MiddleButton) {
-        _mouseDownPoint = event->posF();
+        _mouseDownPoint = event->pos();
     } else {
         _eyePos = CPoint3d(1.1, -0.03, 0.4);
         _centerPos = CPoint3d(0, 0, 0.14);
