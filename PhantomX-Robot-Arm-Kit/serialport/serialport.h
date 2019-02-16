@@ -7,8 +7,7 @@
 #include <QTimer>
 #include <QDebug>
 
-class Serialport : public QSerialPort
-{
+class Serialport : public QSerialPort {
     Q_OBJECT
 public:
     explicit Serialport(QWidget *parent = 0);

@@ -8,10 +8,13 @@
 #include <QDebug>
 
 #if defined(_WIN32) || defined(_WIN64)
-#include <gl/glu.h>
+    #include <gl/glu.h>
 #elif defined(__APPLE__)
-#include <opengl/glu.h>
+    #include <opengl/glu.h>
+#elif defined(__linux__)
+    #include <GL/glu.h>
 #endif
+
 
 #include "opengl/oglDef.h"
 #include "kinematics/kinematics.h"
@@ -21,8 +24,7 @@
 #include "matrix/transformation.h"
 #include "opengl/oglObjects.h"
 
-class GLWidget : public QGLWidget
-{
+class GLWidget : public QGLWidget {
     Q_OBJECT
 public:
     explicit GLWidget(QWidget *parent = 0);

@@ -1,9 +1,7 @@
 #include "serialport.h"
 
 Serialport::Serialport(QWidget *parent) :
-    QSerialPort(parent)
-{
-
+    QSerialPort(parent) {
     _serialPortScanTimer = new QTimer(parent);
     connect(_serialPortScanTimer,SIGNAL(timeout()),this,SLOT(serialPortScanTimer()));
 

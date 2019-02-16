@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QValidator>
+
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
@@ -344,7 +346,6 @@ void MainWindow::setUiObject() {
     _labelInverse[4] = ui->labelInverseQ4;
 
     for(int i=0; i<6; i++) {
-
         // set range, only number
         _lineEditInverse[i]->setValidator( new QIntValidator(this) );
 
