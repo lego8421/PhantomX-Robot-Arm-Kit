@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWindow) {
+#include <QValidator>
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
 
@@ -49,14 +51,14 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     _messageQueue = new QQueue<QByteArray>();
 
     // set serial signal connect
-    connect(_serialPort, &Serialport::connected, [=](QString portName) {
-        ui->statusBar->showMessage("connected: " + portName,1000);
+    connect(_serialPort, &Serialport::connected, [ = ](QString portName) {
+        ui->statusBar->showMessage("connected: " + portName, 1000);
         _serialPort->write(_dynamixel->generateJointAnglePacket(_q.target));
     });
-    connect(_serialPort, &Serialport::disconnected, [=](QString portName) {
-        ui->statusBar->showMessage("disconnected: " + portName,1000);
+    connect(_serialPort, &Serialport::disconnected, [ = ](QString portName) {
+        ui->statusBar->showMessage("disconnected: " + portName, 1000);
     });
-    connect(_serialPort, &Serialport::readyRead, [=]() {
+    connect(_serialPort, &Serialport::readyRead, [ = ]() {
         QByteArray packet;
         _dynamixel->addMessageBuffer(_serialPort->readAll());
         while(_dynamixel->getReceivedPacket(&packet)) {
@@ -67,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent), ui(new Ui::MainWin
     // set user task timer
     _taskTimer = new QTimer(this);
     _taskTimer->start(TASK_TIME);
-    connect(_taskTimer,SIGNAL(timeout()),this,SLOT(doUserTask()));
+    connect(_taskTimer, SIGNAL(timeout()), this, SLOT(doUserTask()));
 }
 
 MainWindow::~MainWindow() {
@@ -80,7 +82,7 @@ void MainWindow::doUserTask() {
         dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
         _kinematics->SetDesired(value[0], value[1], value[2], value[3], value[4], value[5]);
 
-        for(int i=0; i<6; i++) {
+        for(int i = 0; i < 6; i++) {
             if(i < 3) {
                 _sliderInverse[i]->setValue(value[i] * 1000.0);
             } else {
@@ -97,7 +99,7 @@ void MainWindow::doUserTask() {
         _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
         _q.target += _kinematics->SolveDLS(0.01, 0.03, 0.01);
 
-        for(int i=0; i<5; i++) {
+        for(int i = 0; i < 5; i++) {
             _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
         }
 
@@ -112,18 +114,18 @@ void MainWindow::doUserTask() {
                 _interpolation.pathCount = 0;
             }
 
-            for(int i=0; i<6; i++) {
-                _target[i] = _interpolation.path[_interpolation.pathCount][i+1];
+            for(int i = 0; i < 6; i++) {
+                _target[i] = _interpolation.path[_interpolation.pathCount][i + 1];
             }
 
             _kinematics->SetDesired(_target[0], _target[1], _target[2], _target[3], _target[4], _target[5]);
             _q.target += _kinematics->SolveDLS(0.01, 0.03, 0.01);
 
-            for(int i=0; i<5; i++) {
+            for(int i = 0; i < 5; i++) {
                 _sliderForward[i]->setValue(_q.target[i] * _RAD2DEG);
             }
 
-            for(int i=0; i<6; i++) {
+            for(int i = 0; i < 6; i++) {
                 if(i < 3) {
                     _sliderInverse[i]->setValue(_target[i] * 1000.0);
                 } else {
@@ -150,25 +152,25 @@ void MainWindow::doUserTask() {
         uint16_t pos = (((uint16_t)buffer[6] << 8) & 0xFF00) | (buffer[5] & 0xFF);
 
         switch(id) {
-        case 1:
-            _q.current[0] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
-            break;
+            case 1:
+                _q.current[0] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+                break;
 
-        case 3:
-            _q.current[1] = (_dynamixel->convertDynamixelToAngle(pos) - Dynamixel::offset::LINK + Dynamixel::offset::ANGLE) * _DEG2RAD;
-            break;
+            case 3:
+                _q.current[1] = (_dynamixel->convertDynamixelToAngle(pos) - Dynamixel::offset::LINK + Dynamixel::offset::ANGLE) * _DEG2RAD;
+                break;
 
-        case 4:
-            _q.current[2] = (_dynamixel->convertDynamixelToAngle(pos) + Dynamixel::offset::LINK - Dynamixel::offset::ANGLE) * _DEG2RAD;
-            break;
+            case 4:
+                _q.current[2] = (_dynamixel->convertDynamixelToAngle(pos) + Dynamixel::offset::LINK - Dynamixel::offset::ANGLE) * _DEG2RAD;
+                break;
 
-        case 6:
-            _q.current[3] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
-            break;
+            case 6:
+                _q.current[3] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+                break;
 
-        case 7:
-            _q.current[4] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
-            break;
+            case 7:
+                _q.current[4] = _dynamixel->convertDynamixelToAngle(pos) * _DEG2RAD;
+                break;
         }
     }
 }
@@ -176,7 +178,7 @@ void MainWindow::doUserTask() {
 dVector MainWindow::getForwardSliderValue() {
     dVector forward(5);
 
-    for(int i=0; i<5; i++) {
+    for(int i = 0; i < 5; i++) {
         forward[i] = _sliderForward[i]->value() * _DEG2RAD;
     }
 
@@ -186,7 +188,7 @@ dVector MainWindow::getForwardSliderValue() {
 dVector MainWindow::getInverseSliderValue() {
     dVector inverse(6);
 
-    for(int i=0; i<6; i++) {
+    for(int i = 0; i < 6; i++) {
         if(i < 3) {
             inverse[i] = _sliderInverse[i]->value() / 1000.0;
         } else {
@@ -213,13 +215,13 @@ void MainWindow::inverseValueChanged(int index, int val) {
 
 void MainWindow::on_buttonReset_clicked() {
 
-    for(int i=0; i<5;i++) {
+    for(int i = 0; i < 5; i++) {
         _lineEditForward[i]->setText(QString::number(_q.init[i] * _RAD2DEG));
     }
     ui->widget->setJointAngle(_q.init);
 
     dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
-    for(int i=0; i<6; i++) {
+    for(int i = 0; i < 6; i++) {
         if(i < 3) {
             _lineEditInverse[i]->setText(QString::number(value[i] * 1000.0));
         } else {
@@ -234,7 +236,7 @@ void MainWindow::on_buttonReset_clicked() {
     _interpolation.node.clear();
     _interpolation.path.clear();
 
-    for(int i=0; i<8; i++) {
+    for(int i = 0; i < 8; i++) {
         _lineEditPath[i][0]->setText(QString::number(_interpolation.init[i][0]));
         _lineEditPath[i][1]->setText(QString::number(_interpolation.init[i][1] * 1000.0));
         _lineEditPath[i][2]->setText(QString::number(_interpolation.init[i][2] * 1000.0));
@@ -252,7 +254,7 @@ void MainWindow::on_buttonPathApply_clicked() {
     _interpolation.node.clear();
     _interpolation.path.clear();
 
-    for(int i=0; i<8; i++) {
+    for(int i = 0; i < 8; i++) {
         double a[7] = {0.0, };
         a[0] = _lineEditPath[i][0]->text().toDouble(&ok);
         a[1] = _lineEditPath[i][1]->text().toDouble(&ok) / 1000.0;
@@ -264,7 +266,7 @@ void MainWindow::on_buttonPathApply_clicked() {
         _interpolation.node.push_back (std::valarray<double>(&a[0], 7));
     }
 
-    _interpolation.path = linearInterpolation(_interpolation.node, (double)TASK_TIME/1000.0);
+    _interpolation.path = linearInterpolation(_interpolation.node, (double)TASK_TIME / 1000.0);
 
     ui->widget->setNode(&_interpolation.node);
     ui->widget->setPath(&_interpolation.path);
@@ -295,19 +297,21 @@ void MainWindow::setUiObject() {
     _labelForward[4] = ui->labelForwardTheta;
     _labelForward[5] = ui->labelForwardPsi;
 
-    for(int i=0; i<5; i++) {
+    for(int i = 0; i < 5; i++) {
 
         // set range, only number
         _lineEditForward[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
-        connect(_lineEditForward[i], &QLineEdit::textChanged, [=](QString text) {
+        connect(_lineEditForward[i], &QLineEdit::textChanged, [ = ](QString text) {
             bool ok = false;
             _sliderForward[i]->setValue(text.toInt(&ok));
         });
 
         // set slider signal
-        connect(_sliderForward[i], &QSlider::valueChanged, [=](int value) { forwardValueChanged(i,value); });
+        connect(_sliderForward[i], &QSlider::valueChanged, [ = ](int value) {
+            forwardValueChanged(i, value);
+        });
     }
 
     // set inverse
@@ -334,24 +338,26 @@ void MainWindow::setUiObject() {
     _labelInverse[3] = ui->labelInverseQ3;
     _labelInverse[4] = ui->labelInverseQ4;
 
-    for(int i=0; i<6; i++) {
+    for(int i = 0; i < 6; i++) {
 
         // set range, only number
         _lineEditInverse[i]->setValidator( new QIntValidator(this) );
 
         // set text signal
-        connect(_lineEditInverse[i], &QLineEdit::textChanged, [=](QString text) {
+        connect(_lineEditInverse[i], &QLineEdit::textChanged, [ = ](QString text) {
             bool ok = false;
             _sliderInverse[i]->setValue(text.toInt(&ok));
         });
 
         // set slider signal
-        connect(_sliderInverse[i], &QSlider::valueChanged, [=](int value) { inverseValueChanged(i,value); });
+        connect(_sliderInverse[i], &QSlider::valueChanged, [ = ](int value) {
+            inverseValueChanged(i, value);
+        });
     }
 
     // set path
-    _lineEditPath = new QLineEdit**[8];
-    for(int i=0; i<8; i++) {
+    _lineEditPath = new QLineEdit **[8];
+    for(int i = 0; i < 8; i++) {
         _lineEditPath[i] = new QLineEdit*[7];
     }
 
@@ -364,26 +370,58 @@ void MainWindow::setUiObject() {
     _lineEditPath[6][0] = ui->lineEditPathTime6;
     _lineEditPath[7][0] = ui->lineEditPathTime7;
 
-    _lineEditPath[0][1] = ui->lineEditPathX0;       _lineEditPath[0][2] = ui->lineEditPathY0;       _lineEditPath[0][3] = ui->lineEditPathZ0;
-    _lineEditPath[1][1] = ui->lineEditPathX1;       _lineEditPath[1][2] = ui->lineEditPathY1;       _lineEditPath[1][3] = ui->lineEditPathZ1;
-    _lineEditPath[2][1] = ui->lineEditPathX2;       _lineEditPath[2][2] = ui->lineEditPathY2;       _lineEditPath[2][3] = ui->lineEditPathZ2;
-    _lineEditPath[3][1] = ui->lineEditPathX3;       _lineEditPath[3][2] = ui->lineEditPathY3;       _lineEditPath[3][3] = ui->lineEditPathZ3;
-    _lineEditPath[4][1] = ui->lineEditPathX4;       _lineEditPath[4][2] = ui->lineEditPathY4;       _lineEditPath[4][3] = ui->lineEditPathZ4;
-    _lineEditPath[5][1] = ui->lineEditPathX5;       _lineEditPath[5][2] = ui->lineEditPathY5;       _lineEditPath[5][3] = ui->lineEditPathZ5;
-    _lineEditPath[6][1] = ui->lineEditPathX6;       _lineEditPath[6][2] = ui->lineEditPathY6;       _lineEditPath[6][3] = ui->lineEditPathZ6;
-    _lineEditPath[7][1] = ui->lineEditPathX7;       _lineEditPath[7][2] = ui->lineEditPathY7;       _lineEditPath[7][3] = ui->lineEditPathZ7;
+    _lineEditPath[0][1] = ui->lineEditPathX0;
+    _lineEditPath[0][2] = ui->lineEditPathY0;
+    _lineEditPath[0][3] = ui->lineEditPathZ0;
+    _lineEditPath[1][1] = ui->lineEditPathX1;
+    _lineEditPath[1][2] = ui->lineEditPathY1;
+    _lineEditPath[1][3] = ui->lineEditPathZ1;
+    _lineEditPath[2][1] = ui->lineEditPathX2;
+    _lineEditPath[2][2] = ui->lineEditPathY2;
+    _lineEditPath[2][3] = ui->lineEditPathZ2;
+    _lineEditPath[3][1] = ui->lineEditPathX3;
+    _lineEditPath[3][2] = ui->lineEditPathY3;
+    _lineEditPath[3][3] = ui->lineEditPathZ3;
+    _lineEditPath[4][1] = ui->lineEditPathX4;
+    _lineEditPath[4][2] = ui->lineEditPathY4;
+    _lineEditPath[4][3] = ui->lineEditPathZ4;
+    _lineEditPath[5][1] = ui->lineEditPathX5;
+    _lineEditPath[5][2] = ui->lineEditPathY5;
+    _lineEditPath[5][3] = ui->lineEditPathZ5;
+    _lineEditPath[6][1] = ui->lineEditPathX6;
+    _lineEditPath[6][2] = ui->lineEditPathY6;
+    _lineEditPath[6][3] = ui->lineEditPathZ6;
+    _lineEditPath[7][1] = ui->lineEditPathX7;
+    _lineEditPath[7][2] = ui->lineEditPathY7;
+    _lineEditPath[7][3] = ui->lineEditPathZ7;
 
-    _lineEditPath[0][4] = ui->lineEditPathPhi0;     _lineEditPath[0][5] = ui->lineEditPathTheta0;   _lineEditPath[0][6] = ui->lineEditPathPsi0;
-    _lineEditPath[1][4] = ui->lineEditPathPhi1;     _lineEditPath[1][5] = ui->lineEditPathTheta1;   _lineEditPath[1][6] = ui->lineEditPathPsi1;
-    _lineEditPath[2][4] = ui->lineEditPathPhi2;     _lineEditPath[2][5] = ui->lineEditPathTheta2;   _lineEditPath[2][6] = ui->lineEditPathPsi2;
-    _lineEditPath[3][4] = ui->lineEditPathPhi3;     _lineEditPath[3][5] = ui->lineEditPathTheta3;   _lineEditPath[3][6] = ui->lineEditPathPsi3;
-    _lineEditPath[4][4] = ui->lineEditPathPhi4;     _lineEditPath[4][5] = ui->lineEditPathTheta4;   _lineEditPath[4][6] = ui->lineEditPathPsi4;
-    _lineEditPath[5][4] = ui->lineEditPathPhi5;     _lineEditPath[5][5] = ui->lineEditPathTheta5;   _lineEditPath[5][6] = ui->lineEditPathPsi5;
-    _lineEditPath[6][4] = ui->lineEditPathPhi6;     _lineEditPath[6][5] = ui->lineEditPathTheta6;   _lineEditPath[6][6] = ui->lineEditPathPsi6;
-    _lineEditPath[7][4] = ui->lineEditPathPhi7;     _lineEditPath[7][5] = ui->lineEditPathTheta7;   _lineEditPath[7][6] = ui->lineEditPathPsi7;
+    _lineEditPath[0][4] = ui->lineEditPathPhi0;
+    _lineEditPath[0][5] = ui->lineEditPathTheta0;
+    _lineEditPath[0][6] = ui->lineEditPathPsi0;
+    _lineEditPath[1][4] = ui->lineEditPathPhi1;
+    _lineEditPath[1][5] = ui->lineEditPathTheta1;
+    _lineEditPath[1][6] = ui->lineEditPathPsi1;
+    _lineEditPath[2][4] = ui->lineEditPathPhi2;
+    _lineEditPath[2][5] = ui->lineEditPathTheta2;
+    _lineEditPath[2][6] = ui->lineEditPathPsi2;
+    _lineEditPath[3][4] = ui->lineEditPathPhi3;
+    _lineEditPath[3][5] = ui->lineEditPathTheta3;
+    _lineEditPath[3][6] = ui->lineEditPathPsi3;
+    _lineEditPath[4][4] = ui->lineEditPathPhi4;
+    _lineEditPath[4][5] = ui->lineEditPathTheta4;
+    _lineEditPath[4][6] = ui->lineEditPathPsi4;
+    _lineEditPath[5][4] = ui->lineEditPathPhi5;
+    _lineEditPath[5][5] = ui->lineEditPathTheta5;
+    _lineEditPath[5][6] = ui->lineEditPathPsi5;
+    _lineEditPath[6][4] = ui->lineEditPathPhi6;
+    _lineEditPath[6][5] = ui->lineEditPathTheta6;
+    _lineEditPath[6][6] = ui->lineEditPathPsi6;
+    _lineEditPath[7][4] = ui->lineEditPathPhi7;
+    _lineEditPath[7][5] = ui->lineEditPathTheta7;
+    _lineEditPath[7][6] = ui->lineEditPathPsi7;
 
-    for(int i=0; i<8; i++) {
-        for(int j=0; j<7; j++) {
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 7; j++) {
             _lineEditPath[i][j]->setValidator(new QDoubleValidator(this));
         }
     }
@@ -392,7 +430,7 @@ void MainWindow::setUiObject() {
     _interpolation.node.clear();
     _interpolation.path.clear();
 
-    for(int i=0; i<8; i++) {
+    for(int i = 0; i < 8; i++) {
         double a[7] = {0.0, };
         bool ok = false;
         a[0] = _lineEditPath[i][0]->text().toDouble(&ok);
@@ -411,11 +449,11 @@ void MainWindow::printForwardKinematics() {
     dVector value = CTransformMatrix(_kinematics->Forward()).GetPositionOrientation();
     QString text;
 
-    for(int i=0;i<6;i++) {
+    for(int i = 0; i < 6; i++) {
         if(i < 3) {
-            text.sprintf("%4.0f",value[i] * 1000.0);
+            text.sprintf("%4.0f", value[i] * 1000.0);
         } else {
-            text.sprintf("%4.0f",value[i] * _RAD2DEG);
+            text.sprintf("%4.0f", value[i] * _RAD2DEG);
         }
 
         _labelForward[i]->setText(text);
@@ -427,7 +465,7 @@ void MainWindow::printInverseKinematics() {
     dVector value = _kinematics->GetJointAngle();
     QString text;
 
-    for(int i=0;i<5;i++) {
+    for(int i = 0; i < 5; i++) {
         text.sprintf("%4.0f", value[i] * _RAD2DEG);
         _labelInverse[i]->setText(text);
     }
